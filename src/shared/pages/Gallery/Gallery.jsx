@@ -4,9 +4,9 @@ import PageBanner from "../../components/Page/Components/PageBanner/PageBanner";
 import PageTitle from "../../components/Page/Components/PageTitle/PageTitle";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
-import image1 from "../../images/photos/gallery/image1.JPG";
-import image2 from "../../images/photos/gallery/image2.JPG";
-import image3 from "../../images/photos/gallery/image3.JPG";
+import image1 from "../../images/photos/gallery/image1.jpg";
+import image2 from "../../images/photos/gallery/image2.jpg";
+import image3 from "../../images/photos/gallery/image3.jpg";
 import image4 from "../../images/photos/gallery/image4.JPG";
 import image5 from "../../images/photos/gallery/image5.JPG";
 import image6 from "../../images/photos/gallery/image6.JPG";
@@ -32,6 +32,9 @@ import image24 from "../../images/photos/gallery/image24.JPG";
 import image25 from "../../images/photos/gallery/image25.JPG";
 import image26 from "../../images/photos/gallery/image26.JPG";
 import image27 from "../../images/photos/gallery/image27.JPG";
+import image28 from "../../images/photos/gallery/image28.JPG";
+import image29 from "../../images/photos/gallery/image29.JPG";
+import video1 from "../../images/photos/gallery/video1.MP4";
 
 
 const GalleryNew = function (props) {
@@ -104,6 +107,18 @@ const GalleryNew = function (props) {
         original:  image27,
         thumbnail:  image27,
       },
+      {
+        original:  image28,
+        thumbnail:  image28,
+      },
+      {
+        original:  image29,
+        thumbnail:  image29,
+      },
+      // {
+      //   original:  video1,
+      //   thumbnail:  image29,
+      // },
         {
           original: image1,
           thumbnail:  image1,
