@@ -29,7 +29,7 @@ const LeadersList = function (props) {
       <LeaderItem
         image={Shyju}
         name="Br. Shyju Mathew"
-        designation="Treasurer  & YPE secretary"
+        designation="YPE secretary"
       />
       <LeaderItem
         image={Merlin}
@@ -39,7 +39,7 @@ const LeadersList = function (props) {
       <LeaderItem
         image={Neethu}
         name="Sis. Neethu Rejoy"
-        designation="Ladies Secretary"
+        designation="Ladies secretary"
       />
       <LeaderItem image={""} name="Br. Prince Titus" designation="Media" />
       <LeaderItem image={Tijo} name="Br. Tijo" designation="Music" />
