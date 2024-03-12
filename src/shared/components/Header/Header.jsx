@@ -68,9 +68,17 @@ function Header() {
             <div className="nav_link_item"> Contact</div>
           </Nav.Link>
           {isValid ? (
-            <Nav.Link href="/live">
+            <Nav.Link
+              href="https://www.facebook.com/mahanaimtelford/live/"
+              target="_blank"
+            >
               <div className="nav_link_item_live">
-                <img alt='fb logo' src={fb_logo} width="17px" height="17px"></img>
+                <img
+                  alt="fb logo"
+                  src={fb_logo}
+                  width="17px"
+                  height="17px"
+                ></img>
                 <div>Live</div>
               </div>
             </Nav.Link>

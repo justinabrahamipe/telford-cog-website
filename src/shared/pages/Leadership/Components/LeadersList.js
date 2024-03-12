@@ -2,7 +2,6 @@ import React from "react";
 import pr_biju_cherian from "../../../images/photos/Photos/pr_biju_cherian.jpg";
 import br_rejoy from "../../../images/photos/leaders/Rejoy.jpg";
 import br_linu_thomas from "../../../images/photos/Photos/br_linu_thomas.jpg";
-import sr_neethu_mary_mathew from "../../../images/photos/Photos/sr_neethu_rejoy.jpg";
 import Gijo from "../../../images/photos/leaders/Gijo George.jpg";
 import Merlin from "../../../images/photos/leaders/Merlin.jpg";
 import Neethu from "../../../images/photos/leaders/Neethu.jpg";
@@ -31,6 +30,11 @@ const LeadersList = function (props) {
         image={Shyju}
         name="Br. Shyju Mathew"
         designation="Treasurer  & YPE secretary"
+      />
+      <LeaderItem
+        image={Merlin}
+        name="Sis. Merlin Mathew"
+        designation="Sunday School"
       />
       <LeaderItem
         image={Neethu}
