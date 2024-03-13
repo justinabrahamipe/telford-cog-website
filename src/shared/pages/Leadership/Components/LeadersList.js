@@ -34,12 +34,12 @@ const LeadersList = function (props) {
       <LeaderItem
         image={Merlin}
         name="Sis. Merlin Mathew"
-        designation="Sunday School"
+        designation="Head - Sunday School"
       />
       <LeaderItem
         image={Neethu}
         name="Sis. Neethu Rejoy"
-        designation="Ladies secretary"
+        designation="Ladies co-ordinator"
       />
       <LeaderItem image={""} name="Br. Prince Titus" designation="Media" />
       <LeaderItem image={Tijo} name="Br. Tijo" designation="Music" />
