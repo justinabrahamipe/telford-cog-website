@@ -24,7 +24,7 @@ function Header() {
       variant="dark"
       className="navbar"
     >
-      <Navbar.Brand className="navbarHeader" href="/">
+      <Navbar.Brand className="navbarHeader" to="/">
         <div className="nav-logo-div">
           <div className="nav-logo-subDiv1">
             <img alt="logo" className="logo_image_n" src={logo} />
@@ -49,26 +49,26 @@ function Header() {
       />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="justify-content-end flex-grow-1 pe-3 me-auto">
-          <Nav.Link href="/about">
+          <Nav.Link to="/about">
             <div className="nav_link_item">About Us</div>
           </Nav.Link>
-          <Nav.Link href="/kidsandyouth">
+          <Nav.Link to="/kidsandyouth">
             <div className="nav_link_item">Kids and Youth</div>
           </Nav.Link>
-          <Nav.Link href="/sermons">
+          <Nav.Link to="/sermons">
             <div className="nav_link_item">Sermons</div>
           </Nav.Link>
-          <Nav.Link href="/gallery">
+          <Nav.Link to="/gallery">
             <div className="nav_link_item">Gallery</div>
           </Nav.Link>
-          <Nav.Link href="/leadership">
+          <Nav.Link to="/leadership">
             <div className="nav_link_item">Leadership</div>
           </Nav.Link>
-          <Nav.Link href="/contact">
+          <Nav.Link to="/contact">
             <div className="nav_link_item"> Contact</div>
           </Nav.Link>
           {isValid ? (
-            <Nav.Link href="/live">
+            <Nav.Link to="/live">
               <div className="nav_link_item_live">
                 <img alt='fb logo' src={fb_logo} width="17px" height="17px"></img>
                 <div>Live</div>
