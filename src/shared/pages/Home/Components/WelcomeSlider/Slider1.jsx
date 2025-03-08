@@ -1,6 +1,6 @@
 import React from 'react'
 import './WelcomeSlider.css'
-import video from '../../../../images/photos/videoLandscapeview.mp4'
+// import video from '../../../../images/photos/videoLandscapeview.mp4'
 
 const Slider1 = () => {
     return (
@@ -8,7 +8,7 @@ const Slider1 = () => {
         <div className="video_div">
             <center>
                 <video controls autoplay='true' className="video-style" muted loop >
-                    <source src={video} type="video/mp4" />
+                    {/* <source src={video} type="video/mp4" /> */}
                 </video>
             </center>
         </div>
