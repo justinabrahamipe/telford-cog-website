@@ -13,8 +13,13 @@ const LeaderItem = ({
   <Card.Group>
     <Card>
       <Card.Content>
-        <Image src={image} />
-        <br/><br/>
+        {image && (
+          <>
+            <Image src={image} />
+            <br />
+            <br />
+          </>
+        )}
         <Card.Header>{name}</Card.Header>
         <Card.Meta>{designation}</Card.Meta>
         <Card.Description>{decription}</Card.Description>
