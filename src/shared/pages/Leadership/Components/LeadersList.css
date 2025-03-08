@@ -1,9 +1,22 @@
+.LeadersListHolder{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 3rem;
+}
 .LeadersList {
   display: flex;
   padding: 20px;
   background-color: #ffffff;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+.officials-header
+{
+  padding-top: 3rem;
+  padding-left: 3rem;
 }
 
 
