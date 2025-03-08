@@ -4,6 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Header.css";
 import logo from "./images/logo_full_dark_750x200.png";
 import fb_logo from "../../images/icons/socialmedia/facebook.png";
+import { Link } from "react-router-dom";
 
 function Header() {
   const isMobile = window.innerWidth <= 460;
@@ -24,8 +25,8 @@ function Header() {
       variant="dark"
       className="navbar"
     >
-      <Navbar.Brand className="navbarHeader" href="/">
-        <div className="nav-logo-div">
+      <Navbar.Brand className="navbarHeader">
+        <Link className="nav-logo-div" to="/">
           <div className="nav-logo-subDiv1">
             <img alt="logo" className="logo_image_n" src={logo} />
           </div>
@@ -41,7 +42,7 @@ function Header() {
               <div>Telford - UK</div>
             </div>
           )}
-        </div>
+        </Link>
       </Navbar.Brand>
       <Navbar.Toggle
         aria-controls="responsive-navbar-nav"
@@ -49,30 +50,47 @@ function Header() {
       />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="justify-content-end flex-grow-1 pe-3 me-auto">
-          <Nav.Link href="/about">
-            <div className="nav_link_item">About Us</div>
+          <Nav.Link>
+            <Link className="nav_link_item" to="/about">
+              About Us
+            </Link>
           </Nav.Link>
-          <Nav.Link href="/kidsandyouth">
-            <div className="nav_link_item">Kids and Youth</div>
+          <Nav.Link>
+            <Link className="nav_link_item" to="/kidsandyouth">
+              Kids and Youth
+            </Link>
           </Nav.Link>
-          <Nav.Link href="/sermons">
-            <div className="nav_link_item">Sermons</div>
+          <Nav.Link>
+            <Link className="nav_link_item" to="/sermons">
+              Sermons
+            </Link>
           </Nav.Link>
-          <Nav.Link href="/gallery">
-            <div className="nav_link_item">Gallery</div>
+          <Nav.Link>
+            <Link className="nav_link_item" to="/gallery">
+              Gallery
+            </Link>
           </Nav.Link>
-          <Nav.Link href="/leadership">
-            <div className="nav_link_item">Leadership</div>
+          <Nav.Link>
+            <Link className="nav_link_item" to="/leadership">
+              Leadership
+            </Link>
           </Nav.Link>
-          <Nav.Link href="/contact">
-            <div className="nav_link_item"> Contact</div>
+          <Nav.Link>
+            <Link className="nav_link_item" to="/contact">
+              Contact
+            </Link>
           </Nav.Link>
           {isValid ? (
-            <Nav.Link href="/live">
-              <div className="nav_link_item_live">
-                <img alt='fb logo' src={fb_logo} width="17px" height="17px"></img>
+            <Nav.Link>
+              <Link className="nav_link_item_live" to="/live">
+                <img
+                  alt="fb logo"
+                  src={fb_logo}
+                  width="17px"
+                  height="17px"
+                ></img>
                 <div>Live</div>
-              </div>
+              </Link>
             </Nav.Link>
           ) : (
             <></>
