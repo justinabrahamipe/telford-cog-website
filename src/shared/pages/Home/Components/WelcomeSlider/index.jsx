@@ -1,6 +1,4 @@
 import React from "react";
-import Slider1 from "./Slider1.jsx";
-import Slider1mobile from "./Slider1mobile.jsx";
 import Slider2 from "./Slider2.jsx";
 import Slider3 from "./Slider3.jsx";
 import AwesomeSlider from "react-awesome-slider";
@@ -13,7 +11,7 @@ import { Spinner } from 'react-bootstrap';
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 function WelcomeSlider() {
-  const isMobile = window.innerWidth <= 550;
+ // const isMobile = window.innerWidth <= 550;
   return (
     <AutoplaySlider
       className="slider-parent"
@@ -26,9 +24,9 @@ function WelcomeSlider() {
       startupScreen={ <Spinner/>}
       startup={true}
     >
-      <div className="slider-child">
+      {/* <div className="slider-child">
         {!isMobile ? <Slider1 /> : <Slider1mobile/>}
-      </div>
+      </div> */}
       <div className="slider-child">
         <Slider2 />
       </div>
