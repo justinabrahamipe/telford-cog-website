@@ -4,6 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Header.css";
 import logo from "./images/logo_full_dark_750x200.png";
 import fb_logo from "../../images/icons/socialmedia/facebook.png";
+import { Link } from "react-router-dom";
 
 function Header() {
   const isMobile = window.innerWidth <= 460;
@@ -50,7 +51,9 @@ function Header() {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="justify-content-end flex-grow-1 pe-3 me-auto">
           <Nav.Link to="/about">
-            <div className="nav_link_item">About Us</div>
+            <Link className="nav_link_item" to="/about">
+              About Us
+            </Link>
           </Nav.Link>
           <Nav.Link to="/kidsandyouth">
             <div className="nav_link_item">Kids and Youth</div>
@@ -70,7 +73,12 @@ function Header() {
           {isValid ? (
             <Nav.Link to="/live">
               <div className="nav_link_item_live">
-                <img alt='fb logo' src={fb_logo} width="17px" height="17px"></img>
+                <img
+                  alt="fb logo"
+                  src={fb_logo}
+                  width="17px"
+                  height="17px"
+                ></img>
                 <div>Live</div>
               </div>
             </Nav.Link>
