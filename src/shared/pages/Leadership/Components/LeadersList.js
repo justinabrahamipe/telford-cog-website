@@ -19,10 +19,7 @@ const LeadersList = function (props) {
               <br /> <span> Midland region supervisor, COG-UKCCM</span>
             </span>
           }
-          decription="He was born as the son of Pr. Francis Stephan and Eliyamma Stephan at Thrissur, India. From his very young age itself his parents encouraged him to indulge in Sunday school, distributing tracts, outreach ministries and has taught him that toiling in his vineyard is the best thing in the world. They have prayed and supported him to grow in faith.
-        As his parents were getting transferred to different places as part of the ministry, he studied in different schools. He learnt keyboard and did sound mixing at this time which helped his father in his ministry. 
-        He graduated from Peniel Bible Seminary, Perumbavoor in 2012. From his college times itself he had a good time leading the worship under Pr. Sabu Samuel (Malampuzha Church, Palakad), Pr. N. G. Samkutty (Church of God Gospel Centre, Palarivattom), Pr. Saji M George (Bethlehem Community Church, Thrissur), Pr. Daniel Ayiroor (Voice of Gospel Church, Thrissur) and in many conventions and camps.
-        He moved to Wellington, Telford, UK with family and since then he is the part of Mahanaim Church of God. On July 03,2021, by Gods grace a branch of Mahanaim COG came into being in Telford. He is assisting Pr. Biju Cherian in Gods ministry. Wife : Neethu Mary Mathew. Son : Evan Rejoy"
+          decription="He was born in India and trained as a counsellor for Alcohol and Drug Addicts in Mumbai. He counselled in a number of chemically dependant people in India before responding to God’s call to become a Pentecostal Minister in the UK. His wife is Suja Cherian and God gave them two boys Reuben and Ryan. He has been ministering to the  Church of God UK, for more than a decade. For 11 years he pastored in Birkenhead Church of God and then  pastoring Manchester Mahanaim Church of God since January 2017. God helped him to plant two churches in 2 different counties, Keighley and Telford."
           socialMedia={true}
           fb="https://www.facebook.com/bijujoseph.cherian"
           wa="https://wa.me/447411539877"
