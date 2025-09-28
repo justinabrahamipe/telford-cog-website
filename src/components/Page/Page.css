@@ -1,0 +1,28 @@
+.Page {
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.Page__content {
+  position: relative;
+  background-color: var(--background-primary);
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+.Page__overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-primary);
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in 0s, background-color 0.3s ease;
+}
+
+.Page--loaded .Page__overlay {
+  opacity: 0;
+}
