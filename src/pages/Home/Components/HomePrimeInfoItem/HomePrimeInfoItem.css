@@ -1,0 +1,100 @@
+.HomePrimeInfoItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-basis: calc(100% / 3);
+  height: 100%;
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: 0px -15px 20px -15px rgba(0, 0, 0, 0);
+  background-color: #ddd;
+  margin-top: 0px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.25s ease-in-out 0s,
+    box-shadow 0.25s ease-in-out 0s;
+
+}
+.HomePrimeInfoItem:nth-child(2) {
+  box-shadow: 0px -15px 20px -15px rgba(0, 0, 0, 1.0);
+  background-color: #eee;
+  z-index: 1;
+}
+.HomePrimeInfo__holder:hover .HomePrimeInfoItem:nth-child(2):not(:hover) {
+  box-shadow: 0px -15px 20px -15px rgba(0, 0, 0, 1.0);
+  background-color: #ddd;
+}
+
+.HomePrimeInfoItem:hover {
+  box-shadow: 0px -15px 20px -15px rgba(0, 0, 0, 1.0);
+  background-color: #ffffff;
+  z-index: 2;
+}
+
+.HomePrimeInfoItem__holder {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  flex-wrap: wrap;
+  top: 5px;
+  
+  border: solid black;
+}
+
+.HomePrimeInfoItem__name {
+  color: var(--color-dark);
+  font-size: 22px;
+  font-family: "Arsenal", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.75px;
+  text-shadow: 0.75px 0px 0px;
+  margin-bottom: 15px;
+  transition: color 0.25s ease-in-out 0s;
+}
+.HomePrimeInfoItem:hover .HomePrimeInfoItem__name {
+  color: var(--color-red);
+}
+
+.HomePrimeInfoItem__value {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+
+
+.HomePrimeInfoItem__icon {
+  position: relative;
+  top: -15px;
+  width: 50px;
+  height: 50px;
+  margin-right: 25px;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.HomePrimeInfoItem__icon[data-icon="location"] {
+  background-image: url("../../../../assets/icons/placeholder-icon-outline-black.png");
+}
+.HomePrimeInfoItem__icon[data-icon="sunday"] {
+  background-image: url("../../../../assets/icons/clock-icon-outline-black.png");
+}
+.HomePrimeInfoItem__icon[data-icon="prayerline"] {
+  background-image: url("../../../../assets/icons/phone-icon-outline-black.png");
+}
+.HomePrimeInfoItem__icon[data-icon="speaker"] {
+  background-image: url("../../../../assets/icons/speaker-icon-outline-black.png");
+}
+.HomePrimeInfoItem__icon[data-icon="sound-waves"] {
+  background-image: url("../../../../assets/icons/sound-waves-icon-outline-black.png");
+}
+.HomePrimeInfoItem__icon[data-icon="money"] {
+  background-image: url("../../../../assets/icons/money-icon-outline-black.png");
+}
+.HomePrimeInfoItem__icon[data-icon="giving"] {
+  background-image: url("../../../../assets/icons/giving-icon-outline-black.png");
+}
