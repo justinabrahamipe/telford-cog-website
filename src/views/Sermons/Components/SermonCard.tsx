@@ -26,7 +26,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       sx={{
         cursor: 'pointer',
         width: '100%',
-        height: '390px',
+        height: '100%',
         backgroundColor: 'background.paper',
         borderRadius: 1,
         overflow: 'hidden',
@@ -41,12 +41,12 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         },
       }}
     >
-      {/* Thumbnail - Exactly 250px */}
+      {/* Thumbnail - 16:9 Ratio */}
       <Box
         sx={{
           position: 'relative',
           width: '100%',
-          height: '250px',
+          paddingTop: '56.25%', // 16:9 aspect ratio
           overflow: 'hidden',
           backgroundColor: '#000',
         }}
@@ -55,6 +55,9 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
           src={video.thumbnail}
           alt={video.title}
           style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
             width: '100%',
             height: '100%',
             objectFit: 'cover',
