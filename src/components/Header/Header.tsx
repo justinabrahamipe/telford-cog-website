@@ -55,7 +55,7 @@ const Header: React.FC = () => {
 
   const navItems: NavItem[] = [
     { label: "About Us", path: "/about" },
-    { label: "Sermons", path: "/sermons" },
+    { label: "Worship", path: "/sermons" },
     { label: "Gallery", path: "/gallery" },
     { label: "Leadership", path: "/leadership" },
     { label: "Contact", path: "/contact" },
