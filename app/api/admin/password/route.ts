@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminPassword } from '@/src/lib/auth';
+import { prisma } from '@/src/lib/prisma';
 
 // POST verify or change password
 export async function POST(request: NextRequest) {
@@ -26,12 +27,14 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ success: false, error: 'New password must be at least 4 characters' }, { status: 400 });
       }
 
-      // Password is stored in environment variables
-      // User needs to update .env.local and redeploy
-      return NextResponse.json({
-        success: false,
-        error: 'Password must be changed in the ADMIN_PASSWORD environment variable and redeployed'
-      }, { status: 400 });
+      // Update password in database
+      await prisma.adminSettings.upsert({
+        where: { key: 'admin_password' },
+        update: { value: newPassword },
+        create: { key: 'admin_password', value: newPassword },
+      });
+
+      return NextResponse.json({ success: true, message: 'Password updated successfully' });
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
