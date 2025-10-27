@@ -18,7 +18,14 @@ export async function GET() {
     });
 
     // Map to snake_case for frontend compatibility
-    const mappedImages = images.map(img => ({
+    const mappedImages = images.map((img: {
+      id: number;
+      imageUrl: string;
+      thumbnailUrl: string | null;
+      title: string;
+      description: string;
+      orderIndex: number;
+    }) => ({
       id: img.id,
       image_url: img.imageUrl,
       thumbnail_url: img.thumbnailUrl,
