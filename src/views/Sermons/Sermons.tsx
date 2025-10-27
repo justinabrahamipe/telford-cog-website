@@ -166,13 +166,19 @@ const Sermons: React.FC = () => {
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                   Showing {filteredVideos.length} message{filteredVideos.length !== 1 ? 's' : ''}
                 </Typography>
-                <Grid container spacing={3}>
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
+                    gap: 3,
+                  }}
+                >
                   {filteredVideos.map((video) => (
-                    <Grid item xs={12} sm={6} md={6} key={video.id}>
+                    <Box key={video.id}>
                       <SermonCard video={video} onClick={() => handleVideoClick(video)} />
-                    </Grid>
+                    </Box>
                   ))}
-                </Grid>
+                </Box>
               </>
             )}
           </>
