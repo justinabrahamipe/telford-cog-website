@@ -54,7 +54,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "react-scripts test",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma migrate deploy && next build"
   },
   "eslintConfig": {
     "extends": [
