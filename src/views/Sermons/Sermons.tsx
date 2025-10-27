@@ -168,7 +168,7 @@ const Sermons: React.FC = () => {
                 </Typography>
                 <Grid container spacing={3}>
                   {filteredVideos.map((video) => (
-                    <Grid item xs={12} sm={6} md={6} key={video.id} sx={{ display: 'flex', height: '390px' }}>
+                    <Grid item xs={12} sm={6} md={6} key={video.id}>
                       <SermonCard video={video} onClick={() => handleVideoClick(video)} />
                     </Grid>
                   ))}

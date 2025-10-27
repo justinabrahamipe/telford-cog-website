@@ -30,7 +30,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         transition: 'all 0.3s ease-in-out',
         overflow: 'hidden',
         width: '100%',
-        height: '100%',
+        height: '390px',
         '&:hover': {
           transform: 'translateY(-8px)',
           boxShadow: 6,
