@@ -29,6 +29,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         flexDirection: 'column',
         transition: 'all 0.3s ease-in-out',
         overflow: 'hidden',
+        width: '100%',
         '&:hover': {
           transform: 'translateY(-8px)',
           boxShadow: 6,
@@ -81,13 +82,17 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       </Box>
 
       {/* Section 2: Content */}
-      <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1.5, minHeight: '120px', justifyContent: 'space-between' }}>
+      <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column', height: '120px', justifyContent: 'space-between' }}>
         <Typography
           variant="h6"
           component="h3"
           sx={{
             fontWeight: 600,
             lineHeight: 1.3,
+            overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
           }}
         >
           {video.title}
