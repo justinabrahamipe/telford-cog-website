@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState, ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPageName } from "../../utils/actions/page.actions";
