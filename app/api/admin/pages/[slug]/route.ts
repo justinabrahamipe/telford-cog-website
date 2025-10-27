@@ -9,22 +9,30 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
+    console.log('[PAGES] Fetching page:', slug);
+
     const page = await prisma.pageContent.findUnique({
       where: { slug },
     });
 
+    console.log('[PAGES] Page found:', !!page);
+
     if (!page) {
-      return NextResponse.json(
-        { error: 'Page not found' },
-        { status: 404 }
-      );
+      // Return empty content if page doesn't exist yet
+      return NextResponse.json({
+        page: {
+          slug,
+          title: '',
+          content: {},
+        }
+      });
     }
 
     return NextResponse.json({ page });
-  } catch (error) {
-    console.error('Error fetching page:', error);
+  } catch (error: any) {
+    console.error('[PAGES] Error fetching page:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch page' },
+      { error: 'Failed to fetch page', details: error.message },
       { status: 500 }
     );
   }

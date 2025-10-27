@@ -24,12 +24,16 @@ export async function GET(request: NextRequest) {
 // POST create/update page
 export async function POST(request: NextRequest) {
   try {
+    console.log('[PAGES] Checking authentication...');
     const authenticated = await isAuthenticated();
+    console.log('[PAGES] Authenticated:', authenticated);
+
     if (!authenticated) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { slug, title, content } = await request.json();
+    console.log('[PAGES] Saving page:', slug);
 
     if (!slug || !title || !content) {
       return NextResponse.json(
@@ -52,14 +56,16 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    console.log('[PAGES] Page saved successfully');
+
     return NextResponse.json({
       success: true,
       page,
     });
-  } catch (error) {
-    console.error('Error saving page:', error);
+  } catch (error: any) {
+    console.error('[PAGES] Error saving page:', error);
     return NextResponse.json(
-      { error: 'Failed to save page' },
+      { error: 'Failed to save page', details: error.message },
       { status: 500 }
     );
   }

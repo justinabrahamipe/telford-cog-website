@@ -32,11 +32,10 @@ export function AdminLoginModal({ open, onClose, onSuccess }: AdminLoginModalPro
     setLoading(true);
 
     try {
-      const response = await fetch('/api/admin/password', {
+      const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'verify',
           password,
         }),
       });
@@ -48,7 +47,7 @@ export function AdminLoginModal({ open, onClose, onSuccess }: AdminLoginModalPro
         onSuccess();
         onClose();
       } else {
-        setError('Incorrect password. Please try again.');
+        setError(data.error || 'Incorrect password. Please try again.');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');

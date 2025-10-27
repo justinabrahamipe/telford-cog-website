@@ -90,7 +90,10 @@ export function EditableSection({
           window.location.reload();
         }, 1000);
       } else {
-        setMessage('Failed to save changes');
+        const errorData = await saveResponse.json();
+        const errorMessage = errorData.error || 'Failed to save changes';
+        console.error('Save failed:', errorData);
+        setMessage(`Failed to save: ${errorMessage}`);
         setMessageType('error');
       }
     } catch (error) {

@@ -12,28 +12,40 @@ function generateSessionToken(): string {
 // Verify admin password
 export async function verifyAdminPassword(password: string): Promise<boolean> {
   try {
+    console.log('[AUTH] Checking password...');
+
     // Try to get password from database first
     const setting = await prisma.adminSettings.findUnique({
       where: { key: 'admin_password' },
     });
 
+    console.log('[AUTH] Database setting found:', !!setting);
+
     if (setting) {
-      return password === setting.value;
+      const isMatch = password === setting.value;
+      console.log('[AUTH] Database password match:', isMatch);
+      return isMatch;
     }
 
     // Fallback to environment variable (for initial setup)
     const adminPassword = process.env.ADMIN_PASSWORD;
+    console.log('[AUTH] Env var available:', !!adminPassword);
+
     if (adminPassword) {
-      return password === adminPassword;
+      const isMatch = password === adminPassword;
+      console.log('[AUTH] Env password match:', isMatch);
+      return isMatch;
     }
 
-    console.error('No admin password configured in database or environment');
+    console.error('[AUTH] No admin password configured in database or environment');
     return false;
   } catch (error) {
-    console.error('Error verifying admin password:', error);
+    console.error('[AUTH] Error verifying admin password:', error);
     // Fallback to environment variable if database fails
     const adminPassword = process.env.ADMIN_PASSWORD;
-    return adminPassword ? password === adminPassword : false;
+    const result = adminPassword ? password === adminPassword : false;
+    console.log('[AUTH] Fallback result:', result);
+    return result;
   }
 }
 
