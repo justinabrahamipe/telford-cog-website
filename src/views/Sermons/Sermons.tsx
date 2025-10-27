@@ -98,7 +98,7 @@ const Sermons: React.FC = () => {
   return (
     <Page name="Sermons">
       <PageBanner>
-        <PageTitle title="Worship & Messages" />
+        <PageTitle title="Messages" />
       </PageBanner>
 
       <Container maxWidth="lg" sx={{ py: 6 }}>
@@ -108,7 +108,7 @@ const Sermons: React.FC = () => {
             <Grid item xs={12} md={8}>
               <TextField
                 fullWidth
-                placeholder="Search worship songs and messages..."
+                placeholder="Search messages by title or topic..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 InputProps={{
@@ -157,14 +157,14 @@ const Sermons: React.FC = () => {
               <Box sx={{ textAlign: 'center', py: 8 }}>
                 <Typography variant="h6" color="text.secondary">
                   {searchQuery
-                    ? 'No videos found matching your search'
-                    : 'No videos available yet'}
+                    ? 'No messages found matching your search'
+                    : 'No messages available yet'}
                 </Typography>
               </Box>
             ) : (
               <>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Showing {filteredVideos.length} video{filteredVideos.length !== 1 ? 's' : ''}
+                  Showing {filteredVideos.length} message{filteredVideos.length !== 1 ? 's' : ''}
                 </Typography>
                 <Grid container spacing={3}>
                   {filteredVideos.map((video) => (

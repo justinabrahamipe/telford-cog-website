@@ -51,7 +51,7 @@ const Navbar: React.FC = () => {
 				</li>
 				<li className="nav-item">
 					<Link to="/sermons" className="nav-link" onClick={closeMenu}>
-					Worship
+					Messages
 					</Link>
 				</li>
 				<li className="nav-item">
