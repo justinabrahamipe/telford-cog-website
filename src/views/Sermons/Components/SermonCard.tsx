@@ -20,11 +20,6 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
     });
   };
 
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + '...';
-  };
-
   return (
     <Card
       onClick={onClick}
@@ -34,6 +29,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         display: 'flex',
         flexDirection: 'column',
         transition: 'all 0.3s ease-in-out',
+        overflow: 'hidden',
         '&:hover': {
           transform: 'translateY(-8px)',
           boxShadow: 6,
@@ -43,13 +39,25 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         },
       }}
     >
-      <Box sx={{ position: 'relative' }}>
+      {/* Section 1: 16:9 Thumbnail */}
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          paddingTop: '56.25%', // 16:9 aspect ratio
+          overflow: 'hidden',
+        }}
+      >
         <CardMedia
           component="img"
           image={video.thumbnail}
           alt={video.title}
           sx={{
-            height: 200,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
           }}
         />
@@ -73,16 +81,15 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         </Box>
       </Box>
 
-      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      {/* Section 2: Content */}
+      <CardContent sx={{ p: 2 }}>
         <Typography
-          gutterBottom
           variant="h6"
           component="h3"
           sx={{
             fontWeight: 600,
             lineHeight: 1.3,
             mb: 1,
-            minHeight: '3.6em',
             overflow: 'hidden',
             display: '-webkit-box',
             WebkitLineClamp: 2,
@@ -96,25 +103,10 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
           label={formatDate(video.publishedAt)}
           size="small"
           sx={{
-            mb: 1.5,
             alignSelf: 'flex-start',
             fontWeight: 500,
           }}
         />
-
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            flexGrow: 1,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {truncateText(video.description, 150)}
-        </Typography>
       </CardContent>
     </Card>
   );
