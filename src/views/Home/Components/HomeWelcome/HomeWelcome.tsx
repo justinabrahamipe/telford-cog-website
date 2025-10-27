@@ -8,7 +8,7 @@ const HomeWelcome: React.FC = () => {
   return (
     <div className="HomeWelcome">
       <div className='HomeWelcomeLogo'>
-      <img alt='logo' className='logo_image' src={logo.src} />
+      <img alt='logo' className='logo_image' src={logo} />
       </div>
       <div className="HomeWelcome__title">
        <span className="HomeWelcome__title__name">Mahanaim Church of God</span>

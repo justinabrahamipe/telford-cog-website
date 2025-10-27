@@ -57,7 +57,7 @@ const FooterMain: React.FC = () => {
         >
           <Box
             component="img"
-            src={isDark ? logoLight.src : logoDark.src}
+            src={isDark ? logoLight : logoDark}
             alt="Mahanaim Church of God"
             sx={{
               height: 60,

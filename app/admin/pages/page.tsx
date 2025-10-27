@@ -203,7 +203,7 @@ export default function AdminPagesEditor() {
         <Card sx={{ mb: 3 }}>
           <CardContent>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <FormControl fullWidth>
                   <InputLabel>Select Page</InputLabel>
                   <Select
@@ -219,7 +219,7 @@ export default function AdminPagesEditor() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Page Title"
@@ -243,7 +243,7 @@ export default function AdminPagesEditor() {
             Basic Information
           </Typography>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 label="Page Heading"
@@ -252,7 +252,7 @@ export default function AdminPagesEditor() {
                 placeholder="Main heading for the page"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 label="Subheading"
@@ -261,7 +261,7 @@ export default function AdminPagesEditor() {
                 placeholder="Optional subheading"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 multiline

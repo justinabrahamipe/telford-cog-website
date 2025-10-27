@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
 			<Link to="/" className="nav-logo">
 				<div className="nav-logo-div">
 					<div className="nav-logo-subDiv1">
-						<img alt='logo' className='logo_image' src={logo.src} />
+						<img alt='logo' className='logo_image' src={logo} />
 					</div>
 					<div className="nav-logo-subDiv2 text3d">
 						<div>Mahanaim Church of God</div>

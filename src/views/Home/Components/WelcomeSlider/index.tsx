@@ -41,7 +41,7 @@ const heroContent: HeroContent = {
 
 const WelcomeHero: React.FC = () => {
   const { mode } = useCustomTheme();
-  const logo = mode === 'dark' ? logoLight.src : logoDark.src;
+  const logo = mode === 'dark' ? logoLight : logoDark;
 
   return (
     <Box
@@ -52,7 +52,7 @@ const WelcomeHero: React.FC = () => {
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        backgroundImage: `url(${churchImage.src})`,
+        backgroundImage: `url(${churchImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

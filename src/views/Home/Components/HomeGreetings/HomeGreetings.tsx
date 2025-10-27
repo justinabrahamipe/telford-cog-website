@@ -46,7 +46,7 @@ const HomeGreetings: React.FC = () => {
                 }}
               >
                 <Avatar
-                  src={pastorPhoto.src}
+                  src={pastorPhoto}
                   alt="Pr. Biju Cherian"
                   sx={{
                     width: { xs: 180, md: 220 },

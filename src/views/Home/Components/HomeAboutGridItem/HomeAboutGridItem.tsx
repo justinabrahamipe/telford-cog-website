@@ -68,7 +68,7 @@ const HomeAboutGridItem: React.FC<HomeAboutGridItemProps> = ({ title, icon, to }
     >
       <Box
         component="img"
-        src={iconMap[icon as keyof typeof iconMap].src}
+        src={iconMap[icon as keyof typeof iconMap]}
         alt={`${title} icon`}
         className="icon-img"
         sx={{

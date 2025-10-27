@@ -10,10 +10,8 @@ import {
   Stack,
 } from "@mui/material";
 import { Facebook, WhatsApp } from "@mui/icons-material";
-import { StaticImageData } from "next/image";
-
 interface LeaderItemProps {
-  image?: StaticImageData;
+  image?: string;
   name: string;
   designation: string | React.ReactNode;
   description?: string;
@@ -47,7 +45,7 @@ const LeaderItem: React.FC<LeaderItemProps> = ({
       {image && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
           <Avatar
-            src={image.src}
+            src={image}
             alt={name}
             sx={{
               width: 150,

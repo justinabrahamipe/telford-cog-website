@@ -9,7 +9,7 @@ const Slider2: React.FC = () => {
     <div className="Slider2_ParentDiv" draggable="true">
       <div className="HomeWelcome">
         <div className="HomeWelcomeLogo">
-          <img alt="logo" className="logo_image" src={logo.src} />
+          <img alt="logo" className="logo_image" src={logo} />
         </div>
         <div className='slider2-name-parent'>
         <div>

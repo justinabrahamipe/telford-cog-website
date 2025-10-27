@@ -58,30 +58,30 @@ interface LocalGalleryImage {
 }
 
 const fallbackImages: LocalGalleryImage[] = [
-  { original: image1.src, thumbnail: image1.src },
-  { original: image2.src, thumbnail: image2.src },
-  { original: image3.src, thumbnail: image3.src },
-  { original: image4.src, thumbnail: image4.src },
-  { original: image5.src, thumbnail: image5.src },
-  { original: image6.src, thumbnail: image6.src },
-  { original: image7.src, thumbnail: image7.src },
-  { original: image8.src, thumbnail: image8.src },
-  { original: image9.src, thumbnail: image9.src },
-  { original: image10.src, thumbnail: image10.src },
-  { original: image11.src, thumbnail: image11.src },
-  { original: image12.src, thumbnail: image12.src },
-  { original: image13.src, thumbnail: image13.src },
-  { original: image14.src, thumbnail: image14.src },
-  { original: image15.src, thumbnail: image15.src },
-  { original: image16.src, thumbnail: image16.src },
-  { original: image17.src, thumbnail: image17.src },
-  { original: image18.src, thumbnail: image18.src },
-  { original: image19.src, thumbnail: image19.src },
-  { original: image20.src, thumbnail: image20.src },
-  { original: image21.src, thumbnail: image21.src },
-  { original: image22.src, thumbnail: image22.src },
-  { original: image23.src, thumbnail: image23.src },
-  { original: image24.src, thumbnail: image24.src },
+  { original: image1, thumbnail: image1 },
+  { original: image2, thumbnail: image2 },
+  { original: image3, thumbnail: image3 },
+  { original: image4, thumbnail: image4 },
+  { original: image5, thumbnail: image5 },
+  { original: image6, thumbnail: image6 },
+  { original: image7, thumbnail: image7 },
+  { original: image8, thumbnail: image8 },
+  { original: image9, thumbnail: image9 },
+  { original: image10, thumbnail: image10 },
+  { original: image11, thumbnail: image11 },
+  { original: image12, thumbnail: image12 },
+  { original: image13, thumbnail: image13 },
+  { original: image14, thumbnail: image14 },
+  { original: image15, thumbnail: image15 },
+  { original: image16, thumbnail: image16 },
+  { original: image17, thumbnail: image17 },
+  { original: image18, thumbnail: image18 },
+  { original: image19, thumbnail: image19 },
+  { original: image20, thumbnail: image20 },
+  { original: image21, thumbnail: image21 },
+  { original: image22, thumbnail: image22 },
+  { original: image23, thumbnail: image23 },
+  { original: image24, thumbnail: image24 },
 ];
 
 interface GalleryImage {
@@ -305,7 +305,7 @@ const Gallery: React.FC = () => {
             <Grid container spacing={3}>
               {dbImages.length > 0 ? (
                 dbImages.map((image) => (
-                  <Grid item xs={12} sm={6} md={4} lg={3} key={image.id}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={image.id}>
                     <Card>
                       <CardMedia
                         component="img"
@@ -330,7 +330,7 @@ const Gallery: React.FC = () => {
                   </Grid>
                 ))
               ) : (
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <Card sx={{ p: 4, textAlign: 'center' }}>
                     <UploadIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
                     <Typography variant="h6" color="text.secondary">

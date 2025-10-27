@@ -43,7 +43,7 @@ const Header: React.FC = () => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const logo = mode === 'dark' ? logoLight.src : logoDark.src;
+  const logo = mode === 'dark' ? logoLight : logoDark;
 
   const navItems: NavItem[] = [
     { label: "About Us", path: "/about" },

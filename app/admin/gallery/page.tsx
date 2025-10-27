@@ -350,7 +350,7 @@ export default function AdminGalleryManager() {
 
         <Grid container spacing={3}>
           {images.map((image) => (
-            <Grid item xs={12} sm={6} md={4} key={image.id}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={image.id}>
               <Card>
                 <CardMedia
                   component="img"
@@ -391,7 +391,7 @@ export default function AdminGalleryManager() {
           ))}
 
           {images.length === 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ p: 4, textAlign: 'center' }}>
                 <UploadIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
                 <Typography variant="h6" color="text.secondary">

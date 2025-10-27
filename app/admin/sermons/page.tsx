@@ -233,7 +233,7 @@ export default function AdminSermonManager() {
 
         <Grid container spacing={3}>
           {sermons.map((sermon) => (
-            <Grid item xs={12} key={sermon.id}>
+            <Grid size={12} key={sermon.id}>
               <Card>
                 <CardContent>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
@@ -281,7 +281,7 @@ export default function AdminSermonManager() {
           ))}
 
           {sermons.length === 0 && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Card sx={{ p: 4, textAlign: 'center' }}>
                 <VideoIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
                 <Typography variant="h6" color="text.secondary">
