@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
+import { Typography, Box, Chip } from '@mui/material';
 import { PlayCircle as PlayIcon } from '@mui/icons-material';
 import type { YouTubeVideo } from '@/src/types/youtube';
 
@@ -21,19 +21,16 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
   };
 
   return (
-    <Card
+    <Box
       onClick={onClick}
       sx={{
         cursor: 'pointer',
-        width: '100% !important',
-        height: '390px !important',
-        minHeight: '390px !important',
-        maxHeight: '390px !important',
-        display: 'block',
+        width: '100%',
+        height: '390px',
+        backgroundColor: 'background.paper',
+        borderRadius: 1,
         overflow: 'hidden',
-        boxSizing: 'border-box',
-        margin: 0,
-        padding: 0,
+        boxShadow: 1,
         transition: 'all 0.3s ease-in-out',
         '&:hover': {
           transform: 'translateY(-8px)',
@@ -44,26 +41,24 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         },
       }}
     >
-      {/* Thumbnail - Fixed 250px */}
+      {/* Thumbnail - Exactly 250px */}
       <Box
         sx={{
           position: 'relative',
           width: '100%',
-          height: '250px !important',
-          minHeight: '250px !important',
-          maxHeight: '250px !important',
+          height: '250px',
           overflow: 'hidden',
-          flexShrink: 0,
+          backgroundColor: '#000',
         }}
       >
-        <CardMedia
-          component="img"
-          image={video.thumbnail}
+        <img
+          src={video.thumbnail}
           alt={video.title}
-          sx={{
+          style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            display: 'block',
           }}
         />
         <Box
@@ -86,18 +81,14 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         </Box>
       </Box>
 
-      {/* Content - Fixed 140px */}
+      {/* Content - Exactly 140px */}
       <Box
         sx={{
-          height: '140px !important',
-          minHeight: '140px !important',
-          maxHeight: '140px !important',
+          height: '140px',
           p: 2,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          flexShrink: 0,
-          boxSizing: 'border-box',
         }}
       >
         <Typography
@@ -124,6 +115,6 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
           }}
         />
       </Box>
-    </Card>
+    </Box>
   );
 }
