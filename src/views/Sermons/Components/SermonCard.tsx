@@ -82,14 +82,13 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       </Box>
 
       {/* Section 2: Content */}
-      <CardContent sx={{ p: 2 }}>
+      <CardContent sx={{ p: 2, height: '100px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <Typography
           variant="h6"
           component="h3"
           sx={{
             fontWeight: 600,
             lineHeight: 1.3,
-            mb: 1,
             overflow: 'hidden',
             display: '-webkit-box',
             WebkitLineClamp: 2,
