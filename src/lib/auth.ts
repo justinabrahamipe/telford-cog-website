@@ -124,11 +124,16 @@ export async function getCurrentAdminSession(): Promise<string | null> {
 
 // Check if user is authenticated
 export async function isAuthenticated(): Promise<boolean> {
+  console.log('[AUTH] isAuthenticated called');
   const sessionToken = await getCurrentAdminSession();
+  console.log('[AUTH] Session token found:', !!sessionToken, sessionToken ? sessionToken.substring(0, 10) + '...' : 'null');
 
   if (!sessionToken) {
+    console.log('[AUTH] No session token, not authenticated');
     return false;
   }
 
-  return verifyAdminSession(sessionToken);
+  const isValid = await verifyAdminSession(sessionToken);
+  console.log('[AUTH] Session valid:', isValid);
+  return isValid;
 }
