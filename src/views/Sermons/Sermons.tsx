@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Container,
-  Grid,
   TextField,
   MenuItem,
   Box,
@@ -103,37 +102,42 @@ const Sermons: React.FC = () => {
 
       <Container maxWidth="lg" sx={{ py: 6 }}>
         {/* Search and Filter Controls */}
-        <Box sx={{ mb: 4 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={8}>
-              <TextField
-                fullWidth
-                placeholder="Search messages by title or topic..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                select
-                label="Sort By"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-              >
-                <MenuItem value="newest">Newest First</MenuItem>
-                <MenuItem value="oldest">Oldest First</MenuItem>
-                <MenuItem value="alphabetical">Alphabetical</MenuItem>
-              </TextField>
-            </Grid>
-          </Grid>
+        <Box
+          sx={{
+            mb: 4,
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            gap: 2,
+          }}
+        >
+          <Box sx={{ flex: { xs: '1', md: '2' } }}>
+            <TextField
+              fullWidth
+              placeholder="Search messages by title or topic..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+          <Box sx={{ flex: { xs: '1', md: '1' } }}>
+            <TextField
+              fullWidth
+              select
+              label="Sort By"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+            >
+              <MenuItem value="newest">Newest First</MenuItem>
+              <MenuItem value="oldest">Oldest First</MenuItem>
+              <MenuItem value="alphabetical">Alphabetical</MenuItem>
+            </TextField>
+          </Box>
         </Box>
 
         {/* Loading State */}
