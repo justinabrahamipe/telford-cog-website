@@ -1,0 +1,61 @@
+// Telford Church of God - Database Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Admin authentication
+model AdminSession {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique @map("session_token")
+  expiresAt    DateTime @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("admin_sessions")
+}
+
+// Gallery images
+model GalleryImage {
+  id           Int      @id @default(autoincrement())
+  imageUrl     String   @map("image_url")
+  thumbnailUrl String?  @map("thumbnail_url")
+  title        String   @default("")
+  description  String   @default("")
+  orderIndex   Int      @default(0) @map("order_index")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("gallery_images")
+}
+
+// Sermons
+model Sermon {
+  id           Int      @id @default(autoincrement())
+  title        String
+  preacher     String   @default("")
+  date         DateTime
+  videoUrl     String   @default("") @map("video_url")
+  description  String   @default("")
+  thumbnailUrl String   @default("") @map("thumbnail_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("sermons")
+}
+
+// Page content (for editable pages)
+model PageContent {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  content   Json     // Stores flexible JSON content
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("page_content")
+}

@@ -5,6 +5,14 @@ import bibleIcon from "../../../../assets/icons/bible-icon-color.png";
 import churchIcon from "../../../../assets/icons/church-icon-color.png";
 import pulpitIcon from "../../../../assets/icons/pulpit-icon-color.png";
 
+// Helper function to handle both string and StaticImageData types
+const getImageSrc = (img: any): string => {
+  if (typeof img === 'string') {
+    return img;
+  }
+  return img.src || img;
+};
+
 interface HomeAboutGridItemProps {
   title: string;
   icon: string;
@@ -68,7 +76,7 @@ const HomeAboutGridItem: React.FC<HomeAboutGridItemProps> = ({ title, icon, to }
     >
       <Box
         component="img"
-        src={iconMap[icon as keyof typeof iconMap]}
+        src={getImageSrc(iconMap[icon as keyof typeof iconMap])}
         alt={`${title} icon`}
         className="icon-img"
         sx={{

@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/src/lib/db';
+import { prisma } from '@/src/lib/prisma';
 import { isAuthenticated } from '@/src/lib/auth';
 
 // GET all pages
 export async function GET(request: NextRequest) {
   try {
-    const result = await sql`
-      SELECT * FROM pages
-      ORDER BY slug
-    `;
+    const pages = await prisma.pageContent.findMany({
+      orderBy: {
+        slug: 'asc',
+      },
+    });
 
-    return NextResponse.json({ pages: result.rows });
+    return NextResponse.json({ pages });
   } catch (error) {
     console.error('Error fetching pages:', error);
     return NextResponse.json(
@@ -38,20 +39,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Upsert page content
-    const result = await sql`
-      INSERT INTO pages (slug, title, content, updated_at)
-      VALUES (${slug}, ${title}, ${JSON.stringify(content)}, NOW())
-      ON CONFLICT (slug)
-      DO UPDATE SET
-        title = ${title},
-        content = ${JSON.stringify(content)},
-        updated_at = NOW()
-      RETURNING *
-    `;
+    const page = await prisma.pageContent.upsert({
+      where: { slug },
+      update: {
+        title,
+        content,
+      },
+      create: {
+        slug,
+        title,
+        content,
+      },
+    });
 
     return NextResponse.json({
       success: true,
-      page: result.rows[0],
+      page,
     });
   } catch (error) {
     console.error('Error saving page:', error);

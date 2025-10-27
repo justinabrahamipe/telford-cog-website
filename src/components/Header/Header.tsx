@@ -30,6 +30,14 @@ import logoLight from "../../assets/logos/logo_full_light_750x200.png";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { useTheme as useCustomTheme } from "../../theme/ThemeContext";
 
+// Helper function to handle both string and StaticImageData types
+const getImageSrc = (img: any): string => {
+  if (typeof img === 'string') {
+    return img;
+  }
+  return img.src || img;
+};
+
 interface NavItem {
   label: string;
   path: string;
@@ -43,7 +51,7 @@ const Header: React.FC = () => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const logo = mode === 'dark' ? logoLight : logoDark;
+  const logo = getImageSrc(mode === 'dark' ? logoLight : logoDark);
 
   const navItems: NavItem[] = [
     { label: "About Us", path: "/about" },

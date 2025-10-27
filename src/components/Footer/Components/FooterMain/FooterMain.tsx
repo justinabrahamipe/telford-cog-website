@@ -7,9 +7,17 @@ import {
   WhatsApp,
 } from "@mui/icons-material";
 import Link from 'next/link';
-import logoLight from '../logos/logo_full_light_750x200.png';
-import logoDark from '../logos/logo_full_dark_750x200.png';
+import logoLight from '../../../../assets/logos/logo_full_light_750x200.png';
+import logoDark from '../../../../assets/logos/logo_full_dark_750x200.png';
 import ThemeToggle from '../../../ThemeToggle/ThemeToggle';
+
+// Helper function to handle both string and StaticImageData types
+const getImageSrc = (img: any): string => {
+  if (typeof img === 'string') {
+    return img;
+  }
+  return img.src || img;
+};
 
 interface SocialMediaItem {
   name: string;
@@ -57,7 +65,7 @@ const FooterMain: React.FC = () => {
         >
           <Box
             component="img"
-            src={isDark ? logoLight : logoDark}
+            src={getImageSrc(isDark ? logoLight : logoDark)}
             alt="Mahanaim Church of God"
             sx={{
               height: 60,

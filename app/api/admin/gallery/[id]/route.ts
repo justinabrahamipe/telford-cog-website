@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/src/lib/db';
+import { prisma } from '@/src/lib/prisma';
 import { isAuthenticated } from '@/src/lib/auth';
 
 // PUT update gallery image
@@ -16,30 +16,28 @@ export async function PUT(
     const { id } = await params;
     const { image_url, thumbnail_url, title, description, order_index } = await request.json();
 
-    const result = await sql`
-      UPDATE gallery_images
-      SET
-        image_url = ${image_url},
-        thumbnail_url = ${thumbnail_url || null},
-        title = ${title || ''},
-        description = ${description || ''},
-        order_index = ${order_index || 0}
-      WHERE id = ${id}
-      RETURNING *
-    `;
+    const image = await prisma.galleryImage.update({
+      where: { id: parseInt(id) },
+      data: {
+        imageUrl: image_url,
+        thumbnailUrl: thumbnail_url || null,
+        title: title || '',
+        description: description || '',
+        orderIndex: order_index || 0,
+      },
+    });
 
-    if (result.rows.length === 0) {
+    return NextResponse.json({
+      success: true,
+      image,
+    });
+  } catch (error: any) {
+    if (error.code === 'P2025') {
       return NextResponse.json(
         { error: 'Image not found' },
         { status: 404 }
       );
     }
-
-    return NextResponse.json({
-      success: true,
-      image: result.rows[0],
-    });
-  } catch (error) {
     console.error('Error updating gallery image:', error);
     return NextResponse.json(
       { error: 'Failed to update gallery image' },
@@ -60,10 +58,9 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    await sql`
-      DELETE FROM gallery_images
-      WHERE id = ${id}
-    `;
+    await prisma.galleryImage.delete({
+      where: { id: parseInt(id) },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

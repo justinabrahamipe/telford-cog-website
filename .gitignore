@@ -46,3 +46,4 @@ build-checklist.json
 .netlify
 
 firebase-debug
+/src/generated/prisma

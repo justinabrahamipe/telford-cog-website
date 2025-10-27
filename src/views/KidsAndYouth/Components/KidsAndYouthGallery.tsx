@@ -18,19 +18,24 @@ interface ImageItem {
   alt: string;
 }
 
+// Helper function to get image src - handles both string and StaticImageData
+const getImageSrc = (img: any): string => {
+  return typeof img === 'string' ? img : img.src || img;
+};
+
 const IMAGES: ImageItem[] = [
-  { src: image1, alt: "Kids and Youth 1" },
-  { src: image2, alt: "Kids and Youth 2" },
-  { src: image3, alt: "Kids and Youth 3" },
-  { src: image4, alt: "Kids and Youth 4" },
-  { src: image5, alt: "Kids and Youth 5" },
-  { src: image6, alt: "Kids and Youth 6" },
-  { src: image7, alt: "Kids and Youth 7" },
-  { src: image8, alt: "Kids and Youth 8" },
-  { src: image9, alt: "Kids and Youth 9" },
-  { src: image10, alt: "Kids and Youth 10" },
-  { src: image11, alt: "Kids and Youth 11" },
-  { src: image12, alt: "Kids and Youth 12" },
+  { src: getImageSrc(image1), alt: "Kids and Youth 1" },
+  { src: getImageSrc(image2), alt: "Kids and Youth 2" },
+  { src: getImageSrc(image3), alt: "Kids and Youth 3" },
+  { src: getImageSrc(image4), alt: "Kids and Youth 4" },
+  { src: getImageSrc(image5), alt: "Kids and Youth 5" },
+  { src: getImageSrc(image6), alt: "Kids and Youth 6" },
+  { src: getImageSrc(image7), alt: "Kids and Youth 7" },
+  { src: getImageSrc(image8), alt: "Kids and Youth 8" },
+  { src: getImageSrc(image9), alt: "Kids and Youth 9" },
+  { src: getImageSrc(image10), alt: "Kids and Youth 10" },
+  { src: getImageSrc(image11), alt: "Kids and Youth 11" },
+  { src: getImageSrc(image12), alt: "Kids and Youth 12" },
 ];
 
 const KidsAndYouthGallery: React.FC = () => {

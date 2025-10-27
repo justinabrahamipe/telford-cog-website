@@ -18,6 +18,14 @@ import logoDark from "../../../../assets/logos/logo_full_dark_750x200.png";
 import logoLight from "../../../../assets/logos/logo_full_light_750x200.png";
 import churchImage from "../../../../assets/photos/church_image.jpg";
 
+// Helper function to handle both string and StaticImageData types
+const getImageSrc = (img: any): string => {
+  if (typeof img === 'string') {
+    return img;
+  }
+  return img.src || img;
+};
+
 interface HeroContent {
   title: string;
   subtitle: string;
@@ -41,7 +49,8 @@ const heroContent: HeroContent = {
 
 const WelcomeHero: React.FC = () => {
   const { mode } = useCustomTheme();
-  const logo = mode === 'dark' ? logoLight : logoDark;
+  const logo = getImageSrc(mode === 'dark' ? logoLight : logoDark);
+  const backgroundImage = getImageSrc(churchImage);
 
   return (
     <Box
@@ -52,7 +61,7 @@ const WelcomeHero: React.FC = () => {
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        backgroundImage: `url(${churchImage})`,
+        backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

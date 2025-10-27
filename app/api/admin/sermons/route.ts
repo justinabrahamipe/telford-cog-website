@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/src/lib/db';
+import { prisma } from '@/src/lib/prisma';
 import { isAuthenticated } from '@/src/lib/auth';
 
 // GET all sermons
 export async function GET(request: NextRequest) {
   try {
-    const result = await sql`
-      SELECT * FROM sermons
-      ORDER BY date DESC, created_at DESC
-    `;
+    const sermons = await prisma.sermon.findMany({
+      orderBy: [
+        { date: 'desc' },
+        { createdAt: 'desc' },
+      ],
+    });
 
-    return NextResponse.json({ sermons: result.rows });
+    return NextResponse.json({ sermons });
   } catch (error) {
     console.error('Error fetching sermons:', error);
     return NextResponse.json(
@@ -37,15 +39,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await sql`
-      INSERT INTO sermons (title, preacher, date, video_url, description, thumbnail_url)
-      VALUES (${title}, ${preacher || ''}, ${date}, ${video_url || ''}, ${description || ''}, ${thumbnail_url || ''})
-      RETURNING *
-    `;
+    const sermon = await prisma.sermon.create({
+      data: {
+        title,
+        preacher: preacher || '',
+        date: new Date(date),
+        videoUrl: video_url || '',
+        description: description || '',
+        thumbnailUrl: thumbnail_url || '',
+      },
+    });
 
     return NextResponse.json({
       success: true,
-      sermon: result.rows[0],
+      sermon,
     });
   } catch (error) {
     console.error('Error creating sermon:', error);

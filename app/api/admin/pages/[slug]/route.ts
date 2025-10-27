@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/src/lib/db';
+import { prisma } from '@/src/lib/prisma';
 import { isAuthenticated } from '@/src/lib/auth';
 
 // GET single page by slug
@@ -9,20 +9,18 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const result = await sql`
-      SELECT * FROM pages
-      WHERE slug = ${slug}
-      LIMIT 1
-    `;
+    const page = await prisma.pageContent.findUnique({
+      where: { slug },
+    });
 
-    if (result.rows.length === 0) {
+    if (!page) {
       return NextResponse.json(
         { error: 'Page not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ page: result.rows[0] });
+    return NextResponse.json({ page });
   } catch (error) {
     console.error('Error fetching page:', error);
     return NextResponse.json(
@@ -44,10 +42,9 @@ export async function DELETE(
     }
 
     const { slug } = await params;
-    await sql`
-      DELETE FROM pages
-      WHERE slug = ${slug}
-    `;
+    await prisma.pageContent.delete({
+      where: { slug },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

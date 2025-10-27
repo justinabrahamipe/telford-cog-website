@@ -1,32 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initDatabase } from '@/src/lib/db';
-import { isAuthenticated } from '@/src/lib/auth';
+import { prisma } from '@/src/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
-    // Check if user is authenticated (optional for first-time setup)
-    // const authenticated = await isAuthenticated();
-    // if (!authenticated) {
-    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    // }
+    // Verify database connectivity by running a simple query
+    // With Prisma, migrations handle table creation
+    await prisma.$queryRaw`SELECT 1`;
 
-    const result = await initDatabase();
-
-    if (result.success) {
-      return NextResponse.json({
-        message: 'Database initialized successfully',
-        success: true
-      });
-    } else {
-      return NextResponse.json(
-        { error: 'Failed to initialize database', details: result.error },
-        { status: 500 }
-      );
-    }
+    return NextResponse.json({
+      message: 'Database is accessible and ready',
+      success: true
+    });
   } catch (error) {
-    console.error('Database initialization error:', error);
+    console.error('Database connectivity error:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: error },
+      { error: 'Failed to connect to database', details: error },
       { status: 500 }
     );
   }

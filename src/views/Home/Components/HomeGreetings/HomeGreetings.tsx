@@ -13,6 +13,14 @@ import { FormatQuote, Person } from "@mui/icons-material";
 import pastorPhoto from "../../../../assets/photos/Photos/pr_biju_cherian_home.jpg";
 import { EditableSection } from "../../../../components/EditMode/EditableSection";
 
+// Helper function to handle both string and StaticImageData types
+const getImageSrc = (img: any): string => {
+  if (typeof img === 'string') {
+    return img;
+  }
+  return img.src || img;
+};
+
 const HomeGreetings: React.FC = () => {
   return (
     <Box
@@ -46,7 +54,7 @@ const HomeGreetings: React.FC = () => {
                 }}
               >
                 <Avatar
-                  src={pastorPhoto}
+                  src={getImageSrc(pastorPhoto)}
                   alt="Pr. Biju Cherian"
                   sx={{
                     width: { xs: 180, md: 220 },

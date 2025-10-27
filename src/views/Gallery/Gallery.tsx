@@ -57,31 +57,36 @@ interface LocalGalleryImage {
   thumbnail: string;
 }
 
+// Helper function to get image src - handles both string and StaticImageData
+const getImageSrc = (img: any): string => {
+  return typeof img === 'string' ? img : img.src || img;
+};
+
 const fallbackImages: LocalGalleryImage[] = [
-  { original: image1, thumbnail: image1 },
-  { original: image2, thumbnail: image2 },
-  { original: image3, thumbnail: image3 },
-  { original: image4, thumbnail: image4 },
-  { original: image5, thumbnail: image5 },
-  { original: image6, thumbnail: image6 },
-  { original: image7, thumbnail: image7 },
-  { original: image8, thumbnail: image8 },
-  { original: image9, thumbnail: image9 },
-  { original: image10, thumbnail: image10 },
-  { original: image11, thumbnail: image11 },
-  { original: image12, thumbnail: image12 },
-  { original: image13, thumbnail: image13 },
-  { original: image14, thumbnail: image14 },
-  { original: image15, thumbnail: image15 },
-  { original: image16, thumbnail: image16 },
-  { original: image17, thumbnail: image17 },
-  { original: image18, thumbnail: image18 },
-  { original: image19, thumbnail: image19 },
-  { original: image20, thumbnail: image20 },
-  { original: image21, thumbnail: image21 },
-  { original: image22, thumbnail: image22 },
-  { original: image23, thumbnail: image23 },
-  { original: image24, thumbnail: image24 },
+  { original: getImageSrc(image1), thumbnail: getImageSrc(image1) },
+  { original: getImageSrc(image2), thumbnail: getImageSrc(image2) },
+  { original: getImageSrc(image3), thumbnail: getImageSrc(image3) },
+  { original: getImageSrc(image4), thumbnail: getImageSrc(image4) },
+  { original: getImageSrc(image5), thumbnail: getImageSrc(image5) },
+  { original: getImageSrc(image6), thumbnail: getImageSrc(image6) },
+  { original: getImageSrc(image7), thumbnail: getImageSrc(image7) },
+  { original: getImageSrc(image8), thumbnail: getImageSrc(image8) },
+  { original: getImageSrc(image9), thumbnail: getImageSrc(image9) },
+  { original: getImageSrc(image10), thumbnail: getImageSrc(image10) },
+  { original: getImageSrc(image11), thumbnail: getImageSrc(image11) },
+  { original: getImageSrc(image12), thumbnail: getImageSrc(image12) },
+  { original: getImageSrc(image13), thumbnail: getImageSrc(image13) },
+  { original: getImageSrc(image14), thumbnail: getImageSrc(image14) },
+  { original: getImageSrc(image15), thumbnail: getImageSrc(image15) },
+  { original: getImageSrc(image16), thumbnail: getImageSrc(image16) },
+  { original: getImageSrc(image17), thumbnail: getImageSrc(image17) },
+  { original: getImageSrc(image18), thumbnail: getImageSrc(image18) },
+  { original: getImageSrc(image19), thumbnail: getImageSrc(image19) },
+  { original: getImageSrc(image20), thumbnail: getImageSrc(image20) },
+  { original: getImageSrc(image21), thumbnail: getImageSrc(image21) },
+  { original: getImageSrc(image22), thumbnail: getImageSrc(image22) },
+  { original: getImageSrc(image23), thumbnail: getImageSrc(image23) },
+  { original: getImageSrc(image24), thumbnail: getImageSrc(image24) },
 ];
 
 interface GalleryImage {

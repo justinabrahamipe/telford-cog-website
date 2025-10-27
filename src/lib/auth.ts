@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers';
-import { sql } from './db';
-import bcrypt from 'bcryptjs';
+import { prisma } from './prisma';
 
 const SESSION_COOKIE_NAME = 'admin_session';
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
@@ -19,7 +18,7 @@ export async function verifyAdminPassword(password: string): Promise<boolean> {
     return false;
   }
 
-  // Direct comparison for simple password (you can also use bcrypt if needed)
+  // Direct comparison for simple password
   return password === adminPassword;
 }
 
@@ -29,10 +28,12 @@ export async function createAdminSession(): Promise<string> {
   const expiresAt = new Date(Date.now() + SESSION_DURATION);
 
   try {
-    await sql`
-      INSERT INTO admin_sessions (session_token, expires_at)
-      VALUES (${sessionToken}, ${expiresAt})
-    `;
+    await prisma.adminSession.create({
+      data: {
+        sessionToken,
+        expiresAt,
+      },
+    });
 
     return sessionToken;
   } catch (error) {
@@ -44,14 +45,16 @@ export async function createAdminSession(): Promise<string> {
 // Verify admin session
 export async function verifyAdminSession(sessionToken: string): Promise<boolean> {
   try {
-    const result = await sql`
-      SELECT * FROM admin_sessions
-      WHERE session_token = ${sessionToken}
-      AND expires_at > NOW()
-      LIMIT 1
-    `;
+    const session = await prisma.adminSession.findFirst({
+      where: {
+        sessionToken,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+    });
 
-    return result.rows.length > 0;
+    return session !== null;
   } catch (error) {
     console.error('Error verifying admin session:', error);
     return false;
@@ -61,10 +64,11 @@ export async function verifyAdminSession(sessionToken: string): Promise<boolean>
 // Delete admin session (logout)
 export async function deleteAdminSession(sessionToken: string): Promise<void> {
   try {
-    await sql`
-      DELETE FROM admin_sessions
-      WHERE session_token = ${sessionToken}
-    `;
+    await prisma.adminSession.deleteMany({
+      where: {
+        sessionToken,
+      },
+    });
   } catch (error) {
     console.error('Error deleting admin session:', error);
   }
@@ -73,10 +77,13 @@ export async function deleteAdminSession(sessionToken: string): Promise<void> {
 // Clean up expired sessions
 export async function cleanupExpiredSessions(): Promise<void> {
   try {
-    await sql`
-      DELETE FROM admin_sessions
-      WHERE expires_at < NOW()
-    `;
+    await prisma.adminSession.deleteMany({
+      where: {
+        expiresAt: {
+          lt: new Date(),
+        },
+      },
+    });
   } catch (error) {
     console.error('Error cleaning up expired sessions:', error);
   }

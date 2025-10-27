@@ -25,31 +25,36 @@ import image22 from "../../../assets/photos/KidsAndYouth/image22.JPG";
 import image23 from "../../../assets/photos/KidsAndYouth/image23.JPG";
 import image24 from "../../../assets/photos/KidsAndYouth/image24.JPG";
 
+// Helper function to get image src - handles both string and StaticImageData
+const getImageSrc = (img: any): string => {
+  return typeof img === 'string' ? img : img.src || img;
+};
+
 const imgUrls: string[] = [
-  image1,
-  image2,
-  image3,
-  image4,
-  image5,
-  image6,
-  image7,
-  image8,
-  image9,
-  image10,
-  image11,
-  image12,
-  image13,
-  image14,
-  image15,
-  image16,
-  image17,
-  image18,
-  image19,
-  image20,
-  image21,
-  image22,
-  image23,
-  image24,
+  getImageSrc(image1),
+  getImageSrc(image2),
+  getImageSrc(image3),
+  getImageSrc(image4),
+  getImageSrc(image5),
+  getImageSrc(image6),
+  getImageSrc(image7),
+  getImageSrc(image8),
+  getImageSrc(image9),
+  getImageSrc(image10),
+  getImageSrc(image11),
+  getImageSrc(image12),
+  getImageSrc(image13),
+  getImageSrc(image14),
+  getImageSrc(image15),
+  getImageSrc(image16),
+  getImageSrc(image17),
+  getImageSrc(image18),
+  getImageSrc(image19),
+  getImageSrc(image20),
+  getImageSrc(image21),
+  getImageSrc(image22),
+  getImageSrc(image23),
+  getImageSrc(image24),
 ];
 
 interface GalleryModalProps {

@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/src/lib/db';
+import { prisma } from '@/src/lib/prisma';
 import { isAuthenticated } from '@/src/lib/auth';
 
 // GET all gallery images
 export async function GET(request: NextRequest) {
   try {
-    const result = await sql`
-      SELECT * FROM gallery_images
-      ORDER BY order_index, created_at DESC
-    `;
+    const images = await prisma.galleryImage.findMany({
+      orderBy: [
+        { orderIndex: 'asc' },
+        { createdAt: 'desc' },
+      ],
+    });
 
-    return NextResponse.json({ images: result.rows });
+    return NextResponse.json({ images });
   } catch (error) {
     console.error('Error fetching gallery images:', error);
     return NextResponse.json(
@@ -37,15 +39,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await sql`
-      INSERT INTO gallery_images (image_url, thumbnail_url, title, description, order_index)
-      VALUES (${image_url}, ${thumbnail_url || null}, ${title || ''}, ${description || ''}, ${order_index || 0})
-      RETURNING *
-    `;
+    const image = await prisma.galleryImage.create({
+      data: {
+        imageUrl: image_url,
+        thumbnailUrl: thumbnail_url || null,
+        title: title || '',
+        description: description || '',
+        orderIndex: order_index || 0,
+      },
+    });
 
     return NextResponse.json({
       success: true,
-      image: result.rows[0],
+      image,
     });
   } catch (error) {
     console.error('Error creating gallery image:', error);

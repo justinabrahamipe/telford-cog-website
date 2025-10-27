@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@/src/lib/db';
+import { prisma } from '@/src/lib/prisma';
 import { isAuthenticated } from '@/src/lib/auth';
 
 // PUT update sermon
@@ -16,31 +16,29 @@ export async function PUT(
     const { id } = await params;
     const { title, preacher, date, video_url, description, thumbnail_url } = await request.json();
 
-    const result = await sql`
-      UPDATE sermons
-      SET
-        title = ${title},
-        preacher = ${preacher || ''},
-        date = ${date},
-        video_url = ${video_url || ''},
-        description = ${description || ''},
-        thumbnail_url = ${thumbnail_url || ''}
-      WHERE id = ${id}
-      RETURNING *
-    `;
+    const sermon = await prisma.sermon.update({
+      where: { id: parseInt(id) },
+      data: {
+        title,
+        preacher: preacher || '',
+        date: new Date(date),
+        videoUrl: video_url || '',
+        description: description || '',
+        thumbnailUrl: thumbnail_url || '',
+      },
+    });
 
-    if (result.rows.length === 0) {
+    return NextResponse.json({
+      success: true,
+      sermon,
+    });
+  } catch (error: any) {
+    if (error.code === 'P2025') {
       return NextResponse.json(
         { error: 'Sermon not found' },
         { status: 404 }
       );
     }
-
-    return NextResponse.json({
-      success: true,
-      sermon: result.rows[0],
-    });
-  } catch (error) {
     console.error('Error updating sermon:', error);
     return NextResponse.json(
       { error: 'Failed to update sermon' },
@@ -61,10 +59,9 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    await sql`
-      DELETE FROM sermons
-      WHERE id = ${id}
-    `;
+    await prisma.sermon.delete({
+      where: { id: parseInt(id) },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
