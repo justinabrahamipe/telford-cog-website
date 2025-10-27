@@ -25,10 +25,15 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       onClick={onClick}
       sx={{
         cursor: 'pointer',
-        width: '100%',
-        height: '390px',
+        width: '100% !important',
+        height: '390px !important',
+        minHeight: '390px !important',
+        maxHeight: '390px !important',
         display: 'block',
         overflow: 'hidden',
+        boxSizing: 'border-box',
+        margin: 0,
+        padding: 0,
         transition: 'all 0.3s ease-in-out',
         '&:hover': {
           transform: 'translateY(-8px)',
@@ -44,8 +49,11 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         sx={{
           position: 'relative',
           width: '100%',
-          height: '250px',
+          height: '250px !important',
+          minHeight: '250px !important',
+          maxHeight: '250px !important',
           overflow: 'hidden',
+          flexShrink: 0,
         }}
       >
         <CardMedia
@@ -81,11 +89,15 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       {/* Content - Fixed 140px */}
       <Box
         sx={{
-          height: '140px',
+          height: '140px !important',
+          minHeight: '140px !important',
+          maxHeight: '140px !important',
           p: 2,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          flexShrink: 0,
+          boxSizing: 'border-box',
         }}
       >
         <Typography
