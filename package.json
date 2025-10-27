@@ -53,7 +53,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "postinstall": "prisma generate"
   },
   "eslintConfig": {
     "extends": [
