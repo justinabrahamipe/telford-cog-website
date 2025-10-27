@@ -14,11 +14,7 @@ import {
   Box,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-interface ChangePasswordModalProps {
-  open: boolean;
-  onClose: () => void;
-}
+import { ChangePasswordModalProps } from '@/src/types/admin';
 
 export function ChangePasswordModal({ open, onClose }: ChangePasswordModalProps) {
   const [currentPassword, setCurrentPassword] = useState('');

@@ -13,12 +13,7 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
-interface AdminLoginModalProps {
-  open: boolean;
-  onClose: () => void;
-  onSuccess: () => void;
-}
+import { AdminLoginModalProps } from '@/src/types/admin';
 
 export function AdminLoginModal({ open, onClose, onSuccess }: AdminLoginModalProps) {
   const [password, setPassword] = useState('');

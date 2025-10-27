@@ -3,14 +3,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { AdminLoginModal } from './AdminLoginModal';
 import { ChangePasswordModal } from './ChangePasswordModal';
-
-interface EditModeContextType {
-  isEditMode: boolean;
-  toggleEditMode: () => void;
-  exitEditMode: () => void;
-  openLoginModal: () => void;
-  openChangePasswordModal: () => void;
-}
+import { EditModeContextType } from '@/src/types/admin';
 
 const EditModeContext = createContext<EditModeContextType>({
   isEditMode: false,

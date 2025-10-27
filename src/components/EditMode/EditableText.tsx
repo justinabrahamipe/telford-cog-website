@@ -4,15 +4,7 @@ import React, { useState } from 'react';
 import { Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Alert } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 import { useEditMode } from './EditModeProvider';
-
-interface EditableTextProps {
-  children: React.ReactNode;
-  fieldName: string;
-  pageSlug: string;
-  initialValue: string;
-  multiline?: boolean;
-  label?: string;
-}
+import { EditableTextProps } from '@/src/types/admin';
 
 export function EditableText({
   children,

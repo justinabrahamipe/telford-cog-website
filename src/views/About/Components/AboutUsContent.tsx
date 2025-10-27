@@ -4,16 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { Box, Container, CircularProgress } from '@mui/material'
 import DynamicSection from './DynamicSection'
 import { AddSectionButton } from '../../../components/EditMode/AddSectionButton'
-
-interface Section {
-  id: string;
-  title: string;
-  content: string;
-  order?: number;
-}
+import { PageSection } from '@/src/types/page';
 
 // Default sections configuration
-const defaultSections: Section[] = [
+const defaultSections: PageSection[] = [
   {
     id: 'about-vision',
     title: 'Our Vision',
@@ -47,7 +41,7 @@ const defaultSections: Section[] = [
 ];
 
 const AboutUsContent: React.FC = () => {
-  const [sections, setSections] = useState<Section[]>([]);
+  const [sections, setSections] = useState<PageSection[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -60,13 +54,13 @@ const AboutUsContent: React.FC = () => {
 
           // Merge default sections with database sections
           const mergedSections = defaultSections.map(defaultSection => {
-            const dbSection = dbSections.find((s: Section) => s.id === defaultSection.id);
+            const dbSection = dbSections.find((s: PageSection) => s.id === defaultSection.id);
             return dbSection || defaultSection;
           });
 
           // Add any additional custom sections from database
           const customSections = dbSections.filter(
-            (section: Section) => !defaultSections.some(ds => ds.id === section.id)
+            (section: PageSection) => !defaultSections.some(ds => ds.id === section.id)
           );
 
           setSections([...mergedSections, ...customSections]);

@@ -5,18 +5,9 @@ import { Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, But
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { useEditMode } from './EditModeProvider';
 import dynamic from 'next/dynamic';
+import { EditableSectionProps } from '@/src/types/admin';
 
 const TiptapEditor = dynamic(() => import('../../../app/admin/pages/TiptapEditor'), { ssr: false });
-
-interface EditableSectionProps {
-  children: React.ReactNode;
-  sectionId: string;
-  pageSlug: string;
-  title?: string;
-  content?: string;
-  onSave?: () => void;
-  isDeletable?: boolean;
-}
 
 export function EditableSection({
   children,

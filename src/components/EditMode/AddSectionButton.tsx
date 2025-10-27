@@ -5,13 +5,9 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, A
 import { Add as AddIcon } from '@mui/icons-material';
 import { useEditMode } from './EditModeProvider';
 import dynamic from 'next/dynamic';
+import { AddSectionButtonProps } from '@/src/types/admin';
 
 const TiptapEditor = dynamic(() => import('../../../app/admin/pages/TiptapEditor'), { ssr: false });
-
-interface AddSectionButtonProps {
-  pageSlug: string;
-  onSectionAdded?: () => void;
-}
 
 export function AddSectionButton({ pageSlug, onSectionAdded }: AddSectionButtonProps) {
   const { isEditMode } = useEditMode();

@@ -5,15 +5,7 @@ import { Box, Typography, Divider, IconButton } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { EditableSection } from '../../../components/EditMode/EditableSection';
 import { useEditMode } from '../../../components/EditMode/EditModeProvider';
-
-interface DynamicSectionProps {
-  sectionId: string;
-  pageSlug: string;
-  title: string;
-  content: string;
-  onDelete?: () => void;
-  isDeletable?: boolean;
-}
+import { DynamicSectionProps } from '@/src/types/page';
 
 export default function DynamicSection({
   sectionId,
