@@ -30,6 +30,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         transition: 'all 0.3s ease-in-out',
         overflow: 'hidden',
         width: '100%',
+        height: '100%',
         '&:hover': {
           transform: 'translateY(-8px)',
           boxShadow: 6,
@@ -44,8 +45,9 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         sx={{
           position: 'relative',
           width: '100%',
-          paddingTop: '56.25%', // 16:9 aspect ratio
+          height: '250px',
           overflow: 'hidden',
+          flexShrink: 0,
         }}
       >
         <CardMedia
@@ -53,9 +55,6 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
           image={video.thumbnail}
           alt={video.title}
           sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
             width: '100%',
             height: '100%',
             objectFit: 'cover',
@@ -82,7 +81,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       </Box>
 
       {/* Section 2: Content */}
-      <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column', height: '120px', justifyContent: 'space-between' }}>
+      <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column', height: '140px', justifyContent: 'space-between', flexShrink: 0 }}>
         <Typography
           variant="h6"
           component="h3"
