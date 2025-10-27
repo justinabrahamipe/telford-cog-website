@@ -77,22 +77,22 @@ const Footer: React.FC = () => {
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
             <Link
-              href="https://www.facebook.com/Jubbafied"
+              href="https://x.com/justinabrahmipe?t=bL-l613axvkuZdB9FoG-5Q&s=09"
               target="_blank"
               rel="noopener noreferrer"
               sx={{
-                color: 'secondary.main',
+                color: 'text.disabled',
                 textDecoration: 'none',
-                fontSize: '0.875rem',
-                fontWeight: 500,
+                fontSize: '0.75rem',
+                fontWeight: 400,
                 '&:hover': {
-                  color: 'secondary.light',
+                  color: 'text.secondary',
                   textDecoration: 'underline',
                 },
                 transition: 'all 0.2s ease-in-out',
               }}
             >
-              Designed and developed by Jubbafied Digitization Solutions
+              Questions? Contact
             </Link>
             <Typography
               variant="body2"
