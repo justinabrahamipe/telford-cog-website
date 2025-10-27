@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { FormatQuote, Person } from "@mui/icons-material";
 import pastorPhoto from "../../../../assets/photos/Photos/pr_biju_cherian_home.jpg";
+import { EditableSection } from "../../../../components/EditMode/EditableSection";
 
 const HomeGreetings: React.FC = () => {
   return (
@@ -101,110 +102,117 @@ const HomeGreetings: React.FC = () => {
 
           {/* Greeting Message */}
           <Box sx={{ flex: { xs: '1', md: '0 0 67%' } }}>
-            <Box
-              sx={{
-                position: 'relative',
-                pl: { xs: 0, md: 4 },
-              }}
+            <EditableSection
+              sectionId="home-greetings"
+              pageSlug="home"
+              title="Greetings"
+              content="<p>I am glad you are here to know about our church.</p><p>I wholeheartedly welcome you to attend our worship service and experience the touch and power of God.</p><p>Thank you and God bless you.</p>"
             >
-              <FormatQuote
+              <Box
                 sx={{
-                  position: 'absolute',
-                  top: -20,
-                  left: { xs: -10, md: 16 },
-                  fontSize: 60,
-                  color: 'primary.main',
-                  opacity: 0.2,
-                  transform: 'rotate(180deg)',
-                }}
-              />
-
-              <Typography
-                variant="h3"
-                sx={{
-                  fontFamily: '"Playfair Display", serif',
-                  fontWeight: 600,
-                  color: 'primary.main',
-                  mb: 3,
                   position: 'relative',
+                  pl: { xs: 0, md: 4 },
                 }}
               >
-                Greetings
-              </Typography>
-
-              <Box sx={{ position: 'relative', zIndex: 1 }}>
-                <Typography
-                  variant="body1"
+                <FormatQuote
                   sx={{
-                    fontSize: '1.125rem',
-                    lineHeight: 1.8,
-                    color: 'text.primary',
+                    position: 'absolute',
+                    top: -20,
+                    left: { xs: -10, md: 16 },
+                    fontSize: 60,
+                    color: 'primary.main',
+                    opacity: 0.2,
+                    transform: 'rotate(180deg)',
+                  }}
+                />
+
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontFamily: '"Playfair Display", serif',
+                    fontWeight: 600,
+                    color: 'primary.main',
                     mb: 3,
+                    position: 'relative',
                   }}
                 >
-                  I am glad you are here to know about our church.
+                  Greetings
                 </Typography>
 
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: '1.125rem',
-                    lineHeight: 1.8,
-                    color: 'text.primary',
-                    mb: 3,
-                  }}
-                >
-                  I wholeheartedly welcome you to attend our worship service and
-                  experience the touch and power of God.
-                </Typography>
-
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: '1.125rem',
-                    lineHeight: 1.8,
-                    color: 'text.primary',
-                    fontWeight: 500,
-                  }}
-                >
-                  Thank you and God bless you.
-                </Typography>
-
-                <Box
-                  sx={{
-                    mt: 4,
-                    pt: 3,
-                    borderTop: '2px solid',
-                    borderColor: 'primary.main',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                  }}
-                >
+                <Box sx={{ position: 'relative', zIndex: 1 }}>
                   <Typography
-                    variant="subtitle1"
+                    variant="body1"
                     sx={{
-                      fontFamily: '"Playfair Display", serif',
-                      fontStyle: 'italic',
-                      color: 'text.secondary',
+                      fontSize: '1.125rem',
+                      lineHeight: 1.8,
+                      color: 'text.primary',
+                      mb: 3,
                     }}
                   >
-                    "Come as you are, leave changed by His grace"
+                    I am glad you are here to know about our church.
                   </Typography>
-                </Box>
-              </Box>
 
-              <FormatQuote
-                sx={{
-                  position: 'absolute',
-                  bottom: -10,
-                  right: -10,
-                  fontSize: 60,
-                  color: 'primary.main',
-                  opacity: 0.2,
-                }}
-              />
-            </Box>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontSize: '1.125rem',
+                      lineHeight: 1.8,
+                      color: 'text.primary',
+                      mb: 3,
+                    }}
+                  >
+                    I wholeheartedly welcome you to attend our worship service and
+                    experience the touch and power of God.
+                  </Typography>
+
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontSize: '1.125rem',
+                      lineHeight: 1.8,
+                      color: 'text.primary',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Thank you and God bless you.
+                  </Typography>
+
+                  <Box
+                    sx={{
+                      mt: 4,
+                      pt: 3,
+                      borderTop: '2px solid',
+                      borderColor: 'primary.main',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 2,
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        fontFamily: '"Playfair Display", serif',
+                        fontStyle: 'italic',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      "Come as you are, leave changed by His grace"
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <FormatQuote
+                  sx={{
+                    position: 'absolute',
+                    bottom: -10,
+                    right: -10,
+                    fontSize: 60,
+                    color: 'primary.main',
+                    opacity: 0.2,
+                  }}
+                />
+              </Box>
+            </EditableSection>
           </Box>
         </Stack>
       </Container>

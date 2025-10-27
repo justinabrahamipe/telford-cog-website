@@ -1,8 +1,16 @@
 import React from "react";
 import { Box, Typography, Divider, List, ListItem, ListItemText } from '@mui/material'
+import { EditableSection } from '../../../components/EditMode/EditableSection'
 
 const OurValues: React.FC = () => {
 return(
+    <EditableSection
+        sectionId="about-values"
+        pageSlug="about"
+        title="Our Values"
+        content="<p>We have four Values that really motivate us:</p><ol><li>Love : for every individual</li><li>Faith : that impacts daily life</li><li>Service : that shows God's love</li><li>Commitment : to the Lord & His Church</li></ol>"
+        isDeletable={true}
+    >
     <Box
         sx={{
             p: 3,
@@ -53,6 +61,7 @@ return(
             </ListItem>
         </List>
     </Box>
+    </EditableSection>
 )
 }
 

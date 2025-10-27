@@ -1,9 +1,17 @@
 import React from "react";
 import { Box, Typography, Divider } from '@mui/material'
+import { EditableSection } from '../../../components/EditMode/EditableSection'
 
 const OurVision: React.FC = () => {
     return (
-        <Box
+        <EditableSection
+            sectionId="about-vision"
+            pageSlug="about"
+            title="Our Vision"
+            content="<p>To be a healthy, growing and prayerful church which is led by the Holy Spirit and where the Bible is studied and applied and we want to see the <strong>TRANSFORMATION</strong> of Telford and the surrounding area by the <strong>POWER OF THE HOLY SPIRIT</strong>, who is active to <strong>SAVE, HEAL and DELIVER</strong>.</p>"
+            isDeletable={true}
+        >
+            <Box
             sx={{
                 p: 3,
                 m: 2,
@@ -39,6 +47,7 @@ const OurVision: React.FC = () => {
                 .
             </Typography>
         </Box>
+        </EditableSection>
     )
 }
 

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Providers } from './providers';
+import { FacebookSDK } from '../src/components/FacebookSDK';
 import '../src/reset.css';
 import '../src/index.css';
 import './globals.css';
@@ -38,8 +39,7 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
-        <div id="fb-root"></div>
-        <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0" nonce="ZVL7zul2"></script>
+        <FacebookSDK />
       </body>
     </html>
   );

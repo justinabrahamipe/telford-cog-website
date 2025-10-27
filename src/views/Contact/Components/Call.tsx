@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Typography, Box, IconButton, Link } from "@mui/material";
 import { Phone as PhoneIcon, Call as CallIcon } from "@mui/icons-material";
+import { EditableText } from "../../../components/EditMode/EditableText";
 
 const Call: React.FC = () => {
 const makeCall = (): void => {
@@ -59,20 +60,27 @@ const makeCall = (): void => {
         <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
           Pr. Biju Cherian
         </Typography>
-        <Link
-          href='tel:+447411539877'
-          sx={{
-            color: 'secondary.main',
-            textDecoration: 'none',
-            fontSize: '0.875rem',
-            '&:hover': {
-              textDecoration: 'underline',
-            },
-          }}
-          onClick={(e) => e.stopPropagation()}
+        <EditableText
+          fieldName="contactPhone"
+          pageSlug="contact"
+          initialValue="+44 7411 539877"
+          label="Edit Phone Number"
         >
-          +44 7411 539877
-        </Link>
+          <Link
+            href='tel:+447411539877'
+            sx={{
+              color: 'secondary.main',
+              textDecoration: 'none',
+              fontSize: '0.875rem',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            +44 7411 539877
+          </Link>
+        </EditableText>
       </Box>
 
       <IconButton

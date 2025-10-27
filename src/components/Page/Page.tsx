@@ -16,12 +16,18 @@ interface PageProps {
 
 const Page: React.FC<PageProps> = ({ name, children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { isActive, isScrollable } = useSelector((state: RootState) => state.page);
 
   useEffect(() => {
+    // Mark as mounted to prevent hydration mismatch
+    setIsMounted(true);
+
     dispatch(setPageName(name));
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
 
     const timer = setTimeout(() => {
       dispatch(closeDrawerAction());
@@ -32,22 +38,28 @@ const Page: React.FC<PageProps> = ({ name, children }) => {
   }, [dispatch, name]);
 
   useEffect(() => {
-    if (isScrollable) {
-      document.body.classList.remove("no-scroll");
-    } else {
-      document.body.classList.add("no-scroll");
+    if (typeof document !== 'undefined') {
+      if (isScrollable) {
+        document.body.classList.remove("no-scroll");
+      } else {
+        document.body.classList.add("no-scroll");
+      }
     }
   }, [isScrollable]);
 
+  // Build className - ensure consistency between server and client initial render
   let pageClassName = "Page";
   pageClassName += ` Page--${name}`;
   pageClassName += ` Page--${isActive ? "active" : "inactive"}`;
-  pageClassName += isLoaded ? " Page--loaded" : "";
+  // Only add loaded class if mounted to prevent hydration mismatch
+  if (isMounted && isLoaded) {
+    pageClassName += " Page--loaded";
+  }
 
   return (
-    <div className="wrapper wrapper--outer">
+    <div className="wrapper wrapper--outer" suppressHydrationWarning>
       <Header />
-      <div className={pageClassName}>
+      <div className={pageClassName} suppressHydrationWarning>
         <div className="Page__content">
           {children}
           <Footer />

@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Typography, Box, IconButton, Link } from "@mui/material";
 import { WhatsApp as WhatsAppIcon, Chat as ChatIcon } from "@mui/icons-material";
+import { EditableText } from "../../../components/EditMode/EditableText";
 
 const Whatsapp: React.FC = () => {
   const openWhatsApp = (): void => {
@@ -59,22 +60,29 @@ const Whatsapp: React.FC = () => {
         <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
           Pr. Biju Cherian
         </Typography>
-        <Link
-          href='https://api.whatsapp.com/send/?phone=447411539877&text&app_absent=0'
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{
-            color: 'success.main',
-            textDecoration: 'none',
-            fontSize: '0.875rem',
-            '&:hover': {
-              textDecoration: 'underline',
-            },
-          }}
-          onClick={(e) => e.stopPropagation()}
+        <EditableText
+          fieldName="contactWhatsApp"
+          pageSlug="contact"
+          initialValue="+44 7411 539877"
+          label="Edit WhatsApp Number"
         >
-          +44 7411 539877
-        </Link>
+          <Link
+            href='https://api.whatsapp.com/send/?phone=447411539877&text&app_absent=0'
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: 'success.main',
+              textDecoration: 'none',
+              fontSize: '0.875rem',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            +44 7411 539877
+          </Link>
+        </EditableText>
       </Box>
 
       <IconButton

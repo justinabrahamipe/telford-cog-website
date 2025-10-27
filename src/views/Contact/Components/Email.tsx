@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, IconButton, Link } from "@mui/material";
 import { Email as EmailIcon, Send as SendIcon } from "@mui/icons-material";
+import { EditableText } from "../../../components/EditMode/EditableText";
 
 const Email: React.FC = () => {
  const sendEmail = (): void => {
@@ -59,22 +60,29 @@ const Email: React.FC = () => {
       </Box>
 
       <Box sx={{ textAlign: 'center', mb: 2, minHeight: 60, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <Link
-          href={`mailto:mahanaimcogtelford@gmail.com`}
-          sx={{
-            color: 'primary.main',
-            textDecoration: 'none',
-            fontSize: '0.875rem',
-            wordBreak: 'break-word',
-            lineHeight: 1.4,
-            '&:hover': {
-              textDecoration: 'underline',
-            },
-          }}
-          onClick={(e) => e.stopPropagation()}
+        <EditableText
+          fieldName="contactEmail"
+          pageSlug="contact"
+          initialValue="mahanaimcogtelford@gmail.com"
+          label="Edit Email Address"
         >
-          mahanaimcogtelford@gmail.com
-        </Link>
+          <Link
+            href={`mailto:mahanaimcogtelford@gmail.com`}
+            sx={{
+              color: 'primary.main',
+              textDecoration: 'none',
+              fontSize: '0.875rem',
+              wordBreak: 'break-word',
+              lineHeight: 1.4,
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            mahanaimcogtelford@gmail.com
+          </Link>
+        </EditableText>
       </Box>
 
       <IconButton

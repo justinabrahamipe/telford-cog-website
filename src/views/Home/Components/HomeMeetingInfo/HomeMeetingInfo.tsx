@@ -16,6 +16,7 @@ import {
   Schedule,
   CalendarToday,
 } from "@mui/icons-material";
+import { EditableSection } from "../../../../components/EditMode/EditableSection";
 
 interface MeetingInfo {
   title: string;
@@ -110,7 +111,13 @@ const HomeMeetingInfo: React.FC = () => {
         >
           {meetings.map((meeting, index) => (
             <Box key={index}>
-              <Card
+              <EditableSection
+                sectionId={`home-meeting-${index}`}
+                pageSlug="home"
+                title={meeting.title}
+                content={`<p><strong>${meeting.title}</strong></p><p>${meeting.description}</p><p><strong>Schedule:</strong> ${meeting.schedule}</p><p><strong>Time:</strong> ${meeting.time}</p>`}
+              >
+                <Card
                 sx={{
                   height: '100%',
                   position: 'relative',
@@ -226,6 +233,7 @@ const HomeMeetingInfo: React.FC = () => {
                   </Stack>
                 </CardContent>
               </Card>
+              </EditableSection>
             </Box>
           ))}
         </Stack>
