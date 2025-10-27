@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import {
   Box,
@@ -10,6 +12,7 @@ import {
 import FooterMain from "./Components/FooterMain/FooterMain";
 import FooterLocationInfo from "./Components/FooterLocationInfo/FooterLocationInfo";
 import FooterLocationMap from "./Components/FooterLocationMap/FooterLocationMap";
+import { AdminToggle } from "../EditMode/AdminToggle";
 
 const Footer: React.FC = () => {
   return (
@@ -72,24 +75,36 @@ const Footer: React.FC = () => {
           >
             •
           </Typography>
-          <Link
-            href="https://www.facebook.com/Jubbafied"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              color: 'secondary.main',
-              textDecoration: 'none',
-              fontSize: '0.875rem',
-              fontWeight: 500,
-              '&:hover': {
-                color: 'secondary.light',
-                textDecoration: 'underline',
-              },
-              transition: 'all 0.2s ease-in-out',
-            }}
-          >
-            Designed and developed by Jubbafied Digitization Solutions
-          </Link>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
+            <Link
+              href="https://www.facebook.com/Jubbafied"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                color: 'secondary.main',
+                textDecoration: 'none',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                '&:hover': {
+                  color: 'secondary.light',
+                  textDecoration: 'underline',
+                },
+                transition: 'all 0.2s ease-in-out',
+              }}
+            >
+              Designed and developed by Jubbafied Digitization Solutions
+            </Link>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.disabled',
+                fontSize: '0.75rem',
+              }}
+            >
+              •
+            </Typography>
+            <AdminToggle />
+          </Box>
         </Box>
       </Container>
     </Box>

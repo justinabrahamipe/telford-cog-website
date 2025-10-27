@@ -1,10 +1,10 @@
-import About from "../pages/About/About";
-import Contact from "../pages/Contact/Contact";
-import NotFoundError from "../pages/Error/NotFoundError";
-import Gallery from "../pages/Gallery/Gallery";
-import Home from "../pages/Home/Home";
-import Leadership from "../pages/Leadership/Leadership";
-import Sermons from "../pages/Sermons/Sermons";
+import About from "../views/About/About";
+import Contact from "../views/Contact/Contact";
+import NotFoundError from "../views/Error/NotFoundError";
+import Gallery from "../views/Gallery/Gallery";
+import Home from "../views/Home/Home";
+import Leadership from "../views/Leadership/Leadership";
+import Sermons from "../views/Sermons/Sermons";
 
 interface RouteConfig {
   exact?: boolean;

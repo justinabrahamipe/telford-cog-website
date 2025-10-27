@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Theme } from '@mui/material/styles';
 import { theme as lightTheme } from './theme';
@@ -26,22 +28,28 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [mode, setMode] = useState<ThemeMode>(() => {
+  // Always start with 'light' to avoid hydration mismatch
+  const [mode, setMode] = useState<ThemeMode>('light');
+  const [mounted, setMounted] = useState(false);
+
+  const theme = mode === 'light' ? lightTheme : darkTheme;
+
+  // Load theme preference after hydration to avoid mismatch
+  useEffect(() => {
+    setMounted(true);
+
     // Check if user has a saved preference
     const savedMode = localStorage.getItem('themeMode') as ThemeMode;
     if (savedMode) {
-      return savedMode;
+      setMode(savedMode);
+      return;
     }
 
     // Check system preference
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
+      setMode('dark');
     }
-
-    return 'light';
-  });
-
-  const theme = mode === 'light' ? lightTheme : darkTheme;
+  }, []);
 
   const toggleTheme = () => {
     setMode(prevMode => {
@@ -53,6 +61,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   // Listen for system theme changes
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
       // Only update if user hasn't manually set a preference
@@ -67,6 +77,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   // Update document classes and meta tag when theme changes
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const htmlElement = document.documentElement;
     const bodyElement = document.body;
 
@@ -95,6 +107,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={value}>
+      {/* Render children immediately - theme will update after mount */}
       {children}
     </ThemeContext.Provider>
   );

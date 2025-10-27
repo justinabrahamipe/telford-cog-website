@@ -6,7 +6,7 @@ import {
   Instagram,
   WhatsApp,
 } from "@mui/icons-material";
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import logoLight from '../logos/logo_full_light_750x200.png';
 import logoDark from '../logos/logo_full_dark_750x200.png';
 import ThemeToggle from '../../../ThemeToggle/ThemeToggle';
@@ -46,31 +46,27 @@ const FooterMain: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
-      <Box
-        component={Link}
-        to="/"
-        sx={{
-          display: 'block',
-          textDecoration: 'none',
+      <Link href="/" style={{ display: 'block', textDecoration: 'none' }}>
+        <Box
+          sx={{
           '&:hover': {
             transform: 'scale(1.05)',
           },
           transition: 'transform 0.2s ease-in-out',
-        }}
-      >
-        <Box
-          component="img"
-          src={isDark ? logoLight : logoDark}
-          alt="Mahanaim Church of God"
-          sx={{
-            height: 60,
-            width: 'auto',
           }}
-        />
-      </Box>
-
+        >
+          <Box
+            component="img"
+            src={isDark ? logoLight.src : logoDark.src}
+            alt="Mahanaim Church of God"
+            sx={{
+              height: 60,
+              width: 'auto',
+            }}
+          />
+        </Box>
+      </Link>
       <ThemeToggle size="small" showTooltip={false} />
-
       <Stack direction="row" spacing={1}>
         {socialmedia.map((item) => (
           <IconButton
@@ -93,7 +89,6 @@ const FooterMain: React.FC = () => {
           </IconButton>
         ))}
       </Stack>
-
       <Typography
         variant="body2"
         sx={{
