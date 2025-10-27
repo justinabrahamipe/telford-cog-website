@@ -25,7 +25,6 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       onClick={onClick}
       sx={{
         cursor: 'pointer',
-        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         transition: 'all 0.3s ease-in-out',
@@ -82,7 +81,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
       </Box>
 
       {/* Section 2: Content */}
-      <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+      <CardContent sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 1.5, minHeight: '120px', justifyContent: 'space-between' }}>
         <Typography
           variant="h6"
           component="h3"
