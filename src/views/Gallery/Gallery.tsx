@@ -72,16 +72,45 @@ const Gallery: React.FC = () => {
   useEffect(() => {
     if (images.length > 0) {
       const initialImages = images.slice(0, IMAGES_PER_PAGE);
+      console.log('Initial load:', {
+        totalImages: images.length,
+        initialImagesCount: initialImages.length,
+        hasMore: images.length > IMAGES_PER_PAGE
+      });
       setDisplayedImages(initialImages);
       setHasMore(images.length > IMAGES_PER_PAGE);
     }
   }, [images]);
 
+  const loadMoreImages = useCallback(() => {
+    console.log('loadMoreImages called', { page, totalImages: images.length, displayedCount: displayedImages.length });
+    const nextPage = page + 1;
+    const startIndex = page * IMAGES_PER_PAGE;
+    const endIndex = startIndex + IMAGES_PER_PAGE;
+    const newImages = images.slice(startIndex, endIndex);
+
+    console.log('Loading more images:', { startIndex, endIndex, newImagesCount: newImages.length });
+
+    if (newImages.length > 0) {
+      setDisplayedImages((prev) => [...prev, ...newImages]);
+      setPage(nextPage);
+      setHasMore(endIndex < images.length);
+    } else {
+      setHasMore(false);
+    }
+  }, [page, images, displayedImages.length]);
+
   // Infinite scroll observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        console.log('Intersection observed:', {
+          isIntersecting: entries[0].isIntersecting,
+          hasMore,
+          loading
+        });
         if (entries[0].isIntersecting && hasMore && !loading) {
+          console.log('Triggering loadMoreImages');
           loadMoreImages();
         }
       },
@@ -92,26 +121,14 @@ const Gallery: React.FC = () => {
     );
 
     if (observerTarget.current) {
+      console.log('Observer attached to target');
       observer.observe(observerTarget.current);
+    } else {
+      console.log('No observer target found');
     }
 
     return () => observer.disconnect();
-  }, [hasMore, loading, page, images]);
-
-  const loadMoreImages = useCallback(() => {
-    const nextPage = page + 1;
-    const startIndex = page * IMAGES_PER_PAGE;
-    const endIndex = startIndex + IMAGES_PER_PAGE;
-    const newImages = images.slice(startIndex, endIndex);
-
-    if (newImages.length > 0) {
-      setDisplayedImages((prev) => [...prev, ...newImages]);
-      setPage(nextPage);
-      setHasMore(endIndex < images.length);
-    } else {
-      setHasMore(false);
-    }
-  }, [page, images]);
+  }, [hasMore, loading, loadMoreImages]);
 
   const loadGalleryImages = async () => {
     try {
@@ -490,13 +507,22 @@ const Gallery: React.FC = () => {
                 ref={observerTarget}
                 sx={{
                   display: 'flex',
+                  flexDirection: 'column',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  gap: 2,
                   py: { xs: 6, sm: 4 },
                   minHeight: { xs: '150px', sm: '100px' },
                 }}
               >
                 <CircularProgress size={40} />
+                <Button
+                  variant="outlined"
+                  onClick={loadMoreImages}
+                  sx={{ display: { xs: 'flex', sm: 'none' } }}
+                >
+                  Load More Images
+                </Button>
               </Box>
             )}
 
