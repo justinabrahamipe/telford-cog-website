@@ -87,3 +87,30 @@ model Leader {
 
   @@map("leaders")
 }
+
+// Contact methods
+model Contact {
+  id          Int      @id @default(autoincrement())
+  title       String   // "Email", "Call", "WhatsApp", etc.
+  description String?  // Optional description (e.g., person's name)
+  details     String   // The actual email/phone/etc to display
+  iconType    String   @default("email") @map("icon_type") // "email", "phone", "whatsapp", "location", "facebook", etc.
+  actionUrl   String   @map("action_url") // The full URL (mailto:, tel:, https://)
+  colorTheme  String   @default("primary") @map("color_theme") // "primary", "secondary", "success", "info", "warning", "error"
+  orderIndex  Int      @default(0) @map("order_index")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("contacts")
+}
+
+// Footer settings (social links, verse, location)
+model FooterSettings {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique // "facebook_url", "whatsapp_url", "youtube_url", "instagram_url", "verse_text", "verse_reference", "address_line1", "address_line2", "address_line3", "address_line4", "google_maps_url"
+  value     String   // The actual URL or text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("footer_settings")
+}
