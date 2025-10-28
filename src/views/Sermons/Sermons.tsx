@@ -18,6 +18,7 @@ import PageTitle from '../../components/Page/Components/PageTitle/PageTitle';
 import SermonCard from './Components/SermonCard';
 import ShortCard from './Components/ShortCard';
 import VideoModal from './Components/VideoModal';
+import ShortsViewer from './Components/ShortsViewer';
 import type { YouTubeVideo } from '@/src/types/youtube';
 
 const Sermons: React.FC = () => {
@@ -28,6 +29,8 @@ const Sermons: React.FC = () => {
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'alphabetical'>('newest');
   const [selectedVideo, setSelectedVideo] = useState<YouTubeVideo | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [shortsViewerOpen, setShortsViewerOpen] = useState(false);
+  const [selectedShortIndex, setSelectedShortIndex] = useState(0);
 
   // Fetch videos on mount
   useEffect(() => {
@@ -95,13 +98,29 @@ const Sermons: React.FC = () => {
   }, [filteredVideos]);
 
   const handleVideoClick = (video: YouTubeVideo) => {
-    setSelectedVideo(video);
-    setModalOpen(true);
+    if (video.isShort) {
+      // Find index of clicked short
+      const shortIndex = shorts.findIndex(s => s.id === video.id);
+      setSelectedShortIndex(shortIndex >= 0 ? shortIndex : 0);
+      setShortsViewerOpen(true);
+    } else {
+      setSelectedVideo(video);
+      setModalOpen(true);
+    }
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
     setTimeout(() => setSelectedVideo(null), 300);
+  };
+
+  const handleCloseShortsViewer = () => {
+    setShortsViewerOpen(false);
+  };
+
+  const handleVideoSelect = (video: YouTubeVideo) => {
+    setSelectedVideo(video);
+    // No need to close and reopen, just update the video
   };
 
   return (
@@ -247,7 +266,22 @@ const Sermons: React.FC = () => {
       </Container>
 
       {/* Video Modal */}
-      <VideoModal open={modalOpen} video={selectedVideo} onClose={handleCloseModal} />
+      <VideoModal
+        open={modalOpen}
+        video={selectedVideo}
+        videos={regularSermons}
+        onClose={handleCloseModal}
+        onVideoSelect={handleVideoSelect}
+      />
+
+      {/* Shorts Viewer */}
+      {shortsViewerOpen && (
+        <ShortsViewer
+          shorts={shorts}
+          initialIndex={selectedShortIndex}
+          onClose={handleCloseShortsViewer}
+        />
+      )}
     </Page>
   );
 };
