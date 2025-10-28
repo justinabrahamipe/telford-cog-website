@@ -16,13 +16,6 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   metadataBase: new URL(siteConfig.url),
-  icons: {
-    icon: [
-      { url: '/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-    ],
-    apple: '/favicons/apple-touch-icon.png',
-  },
   manifest: '/favicons/site.webmanifest',
   openGraph: {
     type: 'website',

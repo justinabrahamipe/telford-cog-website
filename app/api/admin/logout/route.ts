@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentAdminSession, deleteAdminSession } from '@/src/lib/auth';
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const sessionToken = await getCurrentAdminSession();
 

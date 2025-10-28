@@ -16,7 +16,6 @@ import {
   FormatAlignLeft,
   FormatAlignCenter,
   FormatAlignRight,
-  Code,
   Title,
 } from '@mui/icons-material';
 import { useEffect } from 'react';
@@ -118,7 +117,7 @@ interface TiptapEditorProps {
   minHeight?: string;
 }
 
-export default function TiptapEditor({ content, onChange, placeholder, minHeight = '300px' }: TiptapEditorProps) {
+export default function TiptapEditor({ content, onChange, placeholder: _placeholder, minHeight = '300px' }: TiptapEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [

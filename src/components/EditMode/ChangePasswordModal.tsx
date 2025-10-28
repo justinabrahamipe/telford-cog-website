@@ -68,7 +68,7 @@ export function ChangePasswordModal({ open, onClose }: ChangePasswordModalProps)
         setMessage(data.error || 'Failed to change password');
         setMessageType('error');
       }
-    } catch (err) {
+    } catch {
       setMessage('An error occurred. Please try again.');
       setMessageType('error');
     } finally {

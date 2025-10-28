@@ -31,7 +31,7 @@ export function EditableText({
       const response = await fetch(`/api/admin/pages/${pageSlug}`);
       const data = await response.json();
 
-      let pageContent = data.page?.content || {};
+      const pageContent = data.page?.content || {};
 
       // Update the specific field
       pageContent[fieldName] = value;

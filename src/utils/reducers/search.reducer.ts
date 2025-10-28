@@ -6,11 +6,6 @@ const initialState: SearchState = {
   isFocused: false,
 };
 
-interface SearchAction {
-  type: string;
-  payload?: Partial<SearchState>;
-}
-
 export const searchReducer = (state = initialState, action: any): SearchState => {
   switch (action.type) {
     case "SET_SEARCH":

@@ -33,7 +33,7 @@ export function AddSectionButton({ pageSlug, onSectionAdded }: AddSectionButtonP
       const response = await fetch(`/api/admin/pages/${pageSlug}`);
       const data = await response.json();
 
-      let pageContent = data.page?.content || {};
+      const pageContent = data.page?.content || {};
 
       // Initialize sections array if it doesn't exist
       if (!pageContent.sections) {

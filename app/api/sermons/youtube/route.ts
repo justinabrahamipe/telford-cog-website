@@ -48,8 +48,8 @@ export async function GET() {
     const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&id=${videoIds}&key=${API_KEY}`;
     const detailsResponse = await fetch(detailsUrl);
 
-    let videoDurations: { [key: string]: string } = {};
-    let videoPublishDates: { [key: string]: string } = {};
+    const videoDurations: { [key: string]: string } = {};
+    const videoPublishDates: { [key: string]: string } = {};
     if (detailsResponse.ok) {
       const detailsData = await detailsResponse.json();
       detailsData.items.forEach((item: any) => {

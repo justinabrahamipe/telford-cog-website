@@ -3,10 +3,6 @@ import {
   SHOW_HEADER,
   HIDE_HEADER,
   SET_HEADER_THEME,
-  InitHeaderAction,
-  ShowHeaderAction,
-  HideHeaderAction,
-  SetHeaderThemeAction,
 } from "../actions/header.actions";
 
 interface HeaderState {
@@ -26,8 +22,6 @@ const initialState: HeaderState = {
     current: null,
   },
 };
-
-type HeaderActionTypes = InitHeaderAction | ShowHeaderAction | HideHeaderAction | SetHeaderThemeAction;
 
 export const headerReducer = (state = initialState, action: any): HeaderState => {
   switch (action.type) {

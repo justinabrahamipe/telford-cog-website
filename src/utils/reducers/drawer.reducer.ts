@@ -1,4 +1,4 @@
-import { SET_DRAWER, SetDrawerAction } from "../actions/drawer.actions";
+import { SET_DRAWER } from "../actions/drawer.actions";
 
 interface DrawerState {
   isMounted: boolean;

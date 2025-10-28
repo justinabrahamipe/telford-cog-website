@@ -18,7 +18,6 @@ import {
 import {
   CloudUpload as UploadIcon,
   Delete as DeleteIcon,
-  Close as CloseIcon,
   ZoomIn as ZoomInIcon,
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";

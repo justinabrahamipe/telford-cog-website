@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Typography, Box, IconButton, Link } from "@mui/material";
+import { Card, Typography, Box, IconButton, Link } from "@mui/material";
 import { Email as EmailIcon, Send as SendIcon } from "@mui/icons-material";
 import { EditableText } from "../../../components/EditMode/EditableText";
 

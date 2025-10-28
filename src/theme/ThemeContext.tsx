@@ -30,14 +30,11 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // Always start with 'light' to avoid hydration mismatch
   const [mode, setMode] = useState<ThemeMode>('light');
-  const [mounted, setMounted] = useState(false);
 
   const theme = mode === 'light' ? lightTheme : darkTheme;
 
   // Load theme preference after hydration to avoid mismatch
   useEffect(() => {
-    setMounted(true);
-
     // Check if user has a saved preference
     const savedMode = localStorage.getItem('themeMode') as ThemeMode;
     if (savedMode) {

@@ -1,4 +1,4 @@
-import { SET_PAGE, SetPageAction } from "../actions/page.actions";
+import { SET_PAGE } from "../actions/page.actions";
 
 interface PageState {
   name: string | null;

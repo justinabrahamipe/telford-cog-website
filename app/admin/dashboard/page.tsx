@@ -76,7 +76,7 @@ export default function AdminDashboard() {
       } else {
         setInitMessage(`Error: ${data.error}`);
       }
-    } catch (error) {
+    } catch {
       setInitMessage('Failed to initialize database');
     }
   };

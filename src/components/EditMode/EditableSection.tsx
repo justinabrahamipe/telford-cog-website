@@ -36,7 +36,7 @@ export function EditableSection({
       const response = await fetch(`/api/admin/pages/${pageSlug}`);
       const data = await response.json();
 
-      let pageContent = data.page?.content || {};
+      const pageContent = data.page?.content || {};
 
       // Update the specific section
       if (!pageContent.sections) {
@@ -106,7 +106,7 @@ export function EditableSection({
       const response = await fetch(`/api/admin/pages/${pageSlug}`);
       const data = await response.json();
 
-      let pageContent = data.page?.content || {};
+      const pageContent = data.page?.content || {};
 
       // Remove the section
       if (pageContent.sections) {

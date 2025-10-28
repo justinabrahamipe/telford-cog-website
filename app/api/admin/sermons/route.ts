@@ -3,7 +3,7 @@ import { prisma } from '@/src/lib/prisma';
 import { isAuthenticated } from '@/src/lib/auth';
 
 // GET all sermons
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const sermons = await prisma.sermon.findMany({
       orderBy: [

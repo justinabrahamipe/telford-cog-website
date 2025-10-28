@@ -44,7 +44,7 @@ export function AdminLoginModal({ open, onClose, onSuccess }: AdminLoginModalPro
       } else {
         setError(data.error || 'Incorrect password. Please try again.');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);

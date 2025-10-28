@@ -6,14 +6,6 @@ const initialState: TabsState = {
   selection: {},
 };
 
-interface TabsAction {
-  type: string;
-  payload?: {
-    set: string;
-    tab: string;
-  };
-}
-
 export const tabsReducer = (state = initialState, action: any): TabsState => {
   switch (action.type) {
     case "SELECT_TAB":
