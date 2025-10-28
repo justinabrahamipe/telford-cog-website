@@ -31,68 +31,10 @@ import PageTitle from "../../components/Page/Components/PageTitle/PageTitle";
 import { useEditMode } from "../../components/EditMode/EditModeProvider";
 import "./Gallery.css";
 
-// Local gallery images
-import image1 from "../../assets/photos/gallery-page/image1.jpg";
-import image2 from "../../assets/photos/gallery-page/image2.jpg";
-import image3 from "../../assets/photos/gallery-page/image3.jpg";
-import image4 from "../../assets/photos/gallery-page/image4.jpg";
-import image5 from "../../assets/photos/gallery-page/image5.jpg";
-import image6 from "../../assets/photos/gallery-page/image6.jpg";
-import image7 from "../../assets/photos/gallery-page/image7.jpg";
-import image8 from "../../assets/photos/gallery-page/image8.jpg";
-import image9 from "../../assets/photos/gallery-page/image9.jpg";
-import image10 from "../../assets/photos/gallery-page/image10.jpg";
-import image11 from "../../assets/photos/gallery-page/image11.jpg";
-import image12 from "../../assets/photos/gallery-page/image12.jpg";
-import image13 from "../../assets/photos/gallery-page/image13.jpg";
-import image14 from "../../assets/photos/gallery-page/image14.jpg";
-import image15 from "../../assets/photos/gallery-page/image15.jpg";
-import image16 from "../../assets/photos/gallery-page/image16.jpg";
-import image17 from "../../assets/photos/gallery-page/image17.jpg";
-import image18 from "../../assets/photos/gallery-page/image18.jpg";
-import image19 from "../../assets/photos/gallery-page/image19.jpg";
-import image20 from "../../assets/photos/gallery-page/image20.jpg";
-import image21 from "../../assets/photos/gallery-page/image21.jpg";
-import image22 from "../../assets/photos/gallery-page/image22.jpg";
-import image23 from "../../assets/photos/gallery-page/image23.jpg";
-import image24 from "../../assets/photos/gallery-page/image24.jpg";
-
 interface LocalGalleryImage {
   src: string;
   title?: string;
 }
-
-// Helper function to get image src - handles both string and StaticImageData
-const getImageSrc = (img: any): string => {
-  return typeof img === 'string' ? img : img.src || img;
-};
-
-const fallbackImages: LocalGalleryImage[] = [
-  { src: getImageSrc(image1), title: 'Gallery Image 1' },
-  { src: getImageSrc(image2), title: 'Gallery Image 2' },
-  { src: getImageSrc(image3), title: 'Gallery Image 3' },
-  { src: getImageSrc(image4), title: 'Gallery Image 4' },
-  { src: getImageSrc(image5), title: 'Gallery Image 5' },
-  { src: getImageSrc(image6), title: 'Gallery Image 6' },
-  { src: getImageSrc(image7), title: 'Gallery Image 7' },
-  { src: getImageSrc(image8), title: 'Gallery Image 8' },
-  { src: getImageSrc(image9), title: 'Gallery Image 9' },
-  { src: getImageSrc(image10), title: 'Gallery Image 10' },
-  { src: getImageSrc(image11), title: 'Gallery Image 11' },
-  { src: getImageSrc(image12), title: 'Gallery Image 12' },
-  { src: getImageSrc(image13), title: 'Gallery Image 13' },
-  { src: getImageSrc(image14), title: 'Gallery Image 14' },
-  { src: getImageSrc(image15), title: 'Gallery Image 15' },
-  { src: getImageSrc(image16), title: 'Gallery Image 16' },
-  { src: getImageSrc(image17), title: 'Gallery Image 17' },
-  { src: getImageSrc(image18), title: 'Gallery Image 18' },
-  { src: getImageSrc(image19), title: 'Gallery Image 19' },
-  { src: getImageSrc(image20), title: 'Gallery Image 20' },
-  { src: getImageSrc(image21), title: 'Gallery Image 21' },
-  { src: getImageSrc(image22), title: 'Gallery Image 22' },
-  { src: getImageSrc(image23), title: 'Gallery Image 23' },
-  { src: getImageSrc(image24), title: 'Gallery Image 24' },
-];
 
 interface GalleryImage {
   id: number;
@@ -108,7 +50,7 @@ const IMAGES_PER_PAGE = 12;
 const Gallery: React.FC = () => {
   const { isEditMode } = useEditMode();
   const [mounted, setMounted] = useState(false);
-  const [images, setImages] = useState<LocalGalleryImage[]>(fallbackImages);
+  const [images, setImages] = useState<LocalGalleryImage[]>([]);
   const [displayedImages, setDisplayedImages] = useState<LocalGalleryImage[]>([]);
   const [dbImages, setDbImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -174,18 +116,22 @@ const Gallery: React.FC = () => {
       const response = await fetch('/api/gallery');
       const data = await response.json();
 
-      if (response.ok && data.success && data.images.length > 0) {
-        setDbImages(data.images);
-        const galleryImages = data.images.map((img: any) => ({
+      if (response.ok && data.success) {
+        setDbImages(data.images || []);
+        const galleryImages = (data.images || []).map((img: any) => ({
           src: img.image_url,
           title: img.title || '',
         }));
         setImages(galleryImages);
       } else {
-        console.log('No images in database, using fallback images');
+        console.warn('Failed to load gallery images from database');
+        setImages([]);
+        setDbImages([]);
       }
     } catch (error) {
       console.error('Error loading gallery images:', error);
+      setImages([]);
+      setDbImages([]);
     } finally {
       setLoading(false);
     }
@@ -431,14 +377,26 @@ const Gallery: React.FC = () => {
         ) : (
           // Normal Mode - Modern Grid with Lightbox
           <Box>
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
-                <AnimatePresence>
-                  {displayedImages.map((image, index) => (
+            {displayedImages.length === 0 ? (
+              // Empty state
+              <Card sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
+                <Typography variant="h6" color="text.secondary" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
+                  No images in gallery
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' }, mt: 1 }}>
+                  Images will appear here once they are uploaded
+                </Typography>
+              </Card>
+            ) : (
+              <>
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <AnimatePresence>
+                      {displayedImages.map((image, index) => (
                     <Grid size={{ xs: 6, sm: 4, md: 3 }} key={index}>
                       <motion.div
                         variants={cardVariants}
@@ -539,34 +497,36 @@ const Gallery: React.FC = () => {
               </Box>
             )}
 
-            {/* Lightbox */}
-            <Lightbox
-              open={lightboxOpen}
-              close={() => setLightboxOpen(false)}
-              index={currentImageIndex}
-              slides={images.map((img) => ({ src: img.src, alt: img.title }))}
-              plugins={[Zoom]}
-              zoom={{
-                maxZoomPixelRatio: 3,
-                scrollToZoom: true,
-              }}
-              carousel={{
-                finite: false,
-                preload: 2,
-              }}
-              animation={{
-                fade: 300,
-                swipe: 300,
-              }}
-              controller={{
-                closeOnBackdropClick: true,
-              }}
-              styles={{
-                container: {
-                  backgroundColor: 'rgba(0, 0, 0, 0.95)',
-                },
-              }}
-            />
+                {/* Lightbox */}
+                <Lightbox
+                  open={lightboxOpen}
+                  close={() => setLightboxOpen(false)}
+                  index={currentImageIndex}
+                  slides={images.map((img) => ({ src: img.src, alt: img.title }))}
+                  plugins={[Zoom]}
+                  zoom={{
+                    maxZoomPixelRatio: 3,
+                    scrollToZoom: true,
+                  }}
+                  carousel={{
+                    finite: false,
+                    preload: 2,
+                  }}
+                  animation={{
+                    fade: 300,
+                    swipe: 300,
+                  }}
+                  controller={{
+                    closeOnBackdropClick: true,
+                  }}
+                  styles={{
+                    container: {
+                      backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                    },
+                  }}
+                />
+              </>
+            )}
           </Box>
         )}
       </Container>
