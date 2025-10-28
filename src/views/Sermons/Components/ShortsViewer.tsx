@@ -120,62 +120,60 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
         {currentIndex + 1} / {shorts.length}
       </Box>
 
-      {/* Navigation Arrows - Desktop only */}
-      {currentIndex > 0 && (
-        <IconButton
-          onClick={() => setCurrentIndex(currentIndex - 1)}
-          sx={{
-            position: 'absolute',
-            right: 24,
-            top: '40%',
-            color: 'white',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 10,
-            display: { xs: 'none', md: 'flex' },
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            },
-          }}
-        >
-          <ArrowUpIcon sx={{ fontSize: 32 }} />
-        </IconButton>
-      )}
-
-      {currentIndex < shorts.length - 1 && (
-        <IconButton
-          onClick={() => setCurrentIndex(currentIndex + 1)}
-          sx={{
-            position: 'absolute',
-            right: 24,
-            bottom: '40%',
-            color: 'white',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 10,
-            display: { xs: 'none', md: 'flex' },
-            '&:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            },
-          }}
-        >
-          <ArrowDownIcon sx={{ fontSize: 32 }} />
-        </IconButton>
-      )}
-
-      {/* Swipe Instructions - Mobile only */}
+      {/* Bottom Navigation Arrows */}
       <Box
         sx={{
           position: 'absolute',
           bottom: 100,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          color: 'rgba(255, 255, 255, 0.6)',
-          fontSize: '0.75rem',
-          textAlign: 'center',
+          right: 16,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
           zIndex: 10,
-          display: { xs: 'block', md: 'none' },
         }}
       >
-        Swipe up/down
+        {currentIndex > 0 && (
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setCurrentIndex(currentIndex - 1);
+            }}
+            sx={{
+              color: 'white',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              border: '2px solid white',
+              width: 48,
+              height: 48,
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              },
+            }}
+          >
+            <ArrowUpIcon sx={{ fontSize: 28 }} />
+          </IconButton>
+        )}
+        {currentIndex < shorts.length - 1 && (
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setCurrentIndex(currentIndex + 1);
+            }}
+            sx={{
+              color: 'white',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              border: '2px solid white',
+              width: 48,
+              height: 48,
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              },
+            }}
+          >
+            <ArrowDownIcon sx={{ fontSize: 28 }} />
+          </IconButton>
+        )}
       </Box>
 
       {/* Video Player - Centered */}
