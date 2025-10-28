@@ -13,6 +13,7 @@ interface ShortsViewerProps {
 
 export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [slideDirection, setSlideDirection] = useState<'up' | 'down' | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef<number>(0);
   const touchEndY = useRef<number>(0);
@@ -37,10 +38,18 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
     if (Math.abs(swipeDistance) > minSwipeDistance) {
       if (swipeDistance > 0 && currentIndex < shorts.length - 1) {
         // Swiped up - next short
-        setCurrentIndex(currentIndex + 1);
+        setSlideDirection('up');
+        setTimeout(() => {
+          setCurrentIndex(currentIndex + 1);
+          setSlideDirection(null);
+        }, 50);
       } else if (swipeDistance < 0 && currentIndex > 0) {
         // Swiped down - previous short
-        setCurrentIndex(currentIndex - 1);
+        setSlideDirection('down');
+        setTimeout(() => {
+          setCurrentIndex(currentIndex - 1);
+          setSlideDirection(null);
+        }, 50);
       }
     }
   };
@@ -49,9 +58,17 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp' && currentIndex > 0) {
-        setCurrentIndex(currentIndex - 1);
+        setSlideDirection('down');
+        setTimeout(() => {
+          setCurrentIndex(currentIndex - 1);
+          setSlideDirection(null);
+        }, 50);
       } else if (e.key === 'ArrowDown' && currentIndex < shorts.length - 1) {
-        setCurrentIndex(currentIndex + 1);
+        setSlideDirection('up');
+        setTimeout(() => {
+          setCurrentIndex(currentIndex + 1);
+          setSlideDirection(null);
+        }, 50);
       } else if (e.key === 'Escape') {
         onClose();
       }
@@ -149,7 +166,11 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              setCurrentIndex(currentIndex - 1);
+              setSlideDirection('down');
+              setTimeout(() => {
+                setCurrentIndex(currentIndex - 1);
+                setSlideDirection(null);
+              }, 50);
             }}
             sx={{
               color: 'white',
@@ -170,7 +191,11 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              setCurrentIndex(currentIndex + 1);
+              setSlideDirection('up');
+              setTimeout(() => {
+                setCurrentIndex(currentIndex + 1);
+                setSlideDirection(null);
+              }, 50);
             }}
             sx={{
               color: 'white',
@@ -188,7 +213,7 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
         )}
       </Box>
 
-      {/* Video Player - Centered */}
+      {/* Video Player - Centered with Smooth Transitions */}
       <Box
         sx={{
           width: '100%',
@@ -198,6 +223,13 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          transition: 'transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.3s ease',
+          transform: slideDirection === 'up'
+            ? 'translateY(-100vh)'
+            : slideDirection === 'down'
+            ? 'translateY(100vh)'
+            : 'translateY(0)',
+          opacity: slideDirection ? 0 : 1,
         }}
       >
         <Box
