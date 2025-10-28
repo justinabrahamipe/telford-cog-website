@@ -29,19 +29,19 @@ const Footer: React.FC = () => {
         transition: 'all 0.3s ease',
       }}
     >
-      <Container maxWidth="xl" sx={{ px: 0 }}>
+      <Container maxWidth="xl" sx={{ px: { xs: 3, md: 2 } }}>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           spacing={4}
           sx={{ mb: 4 }}
         >
-          <Box sx={{ flex: 1 }}>
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' } }}>
             <FooterLocationInfo />
           </Box>
-          <Box sx={{ flex: 1 }}>
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
             <FooterLocationMap />
           </Box>
-          <Box sx={{ flex: 1 }}>
+          <Box sx={{ flex: 1, display: 'flex', justifyContent: { xs: 'center', md: 'flex-end' } }}>
             <FooterMain />
           </Box>
         </Stack>

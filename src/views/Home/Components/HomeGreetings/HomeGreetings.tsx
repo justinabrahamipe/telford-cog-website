@@ -29,14 +29,14 @@ const HomeGreetings: React.FC = () => {
         backgroundColor: 'background.default',
       }}
     >
-      <Container maxWidth="lg" sx={{ px: 0 }}>
+      <Container maxWidth="lg" sx={{ px: { xs: 3, md: 2 } }}>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           spacing={4}
-          alignItems="center"
+          alignItems={{ xs: 'center', md: 'flex-start' }}
         >
           {/* Pastor Card */}
-          <Box sx={{ flex: { xs: '1', md: '0 0 33%' } }}>
+          <Box sx={{ flex: { xs: '1', md: '0 0 33%' }, width: { xs: '100%', md: 'auto' }, display: 'flex', justifyContent: 'center' }}>
             <Card
               sx={{
                 position: 'relative',
@@ -44,6 +44,8 @@ const HomeGreetings: React.FC = () => {
                 backgroundColor: 'transparent',
                 boxShadow: 'none',
                 textAlign: 'center',
+                width: '100%',
+                maxWidth: { xs: '300px', md: 'none' },
               }}
             >
               <Box
@@ -57,9 +59,9 @@ const HomeGreetings: React.FC = () => {
                   src={getImageSrc(pastorPhoto)}
                   alt="Pr. Biju Cherian"
                   sx={{
-                    width: { xs: 180, md: 220 },
-                    height: { xs: 180, md: 220 },
-                    border: '6px solid',
+                    width: { xs: 200, sm: 220, md: 220 },
+                    height: { xs: 200, sm: 220, md: 220 },
+                    border: { xs: '5px solid', md: '6px solid' },
                     borderColor: 'primary.main',
                     boxShadow: '0 12px 40px rgba(37, 99, 235, 0.2)',
                     transition: 'all 0.3s ease-in-out',
@@ -73,9 +75,10 @@ const HomeGreetings: React.FC = () => {
                   icon={<Person />}
                   label="Senior Pastor"
                   color="primary"
+                  size="medium"
                   sx={{
                     position: 'absolute',
-                    bottom: 16,
+                    bottom: { xs: 12, md: 16 },
                     left: '50%',
                     transform: 'translateX(-50%)',
                     fontWeight: 600,
@@ -91,6 +94,7 @@ const HomeGreetings: React.FC = () => {
                     fontWeight: 600,
                     color: 'text.primary',
                     mb: 1,
+                    fontSize: { xs: '1.25rem', md: '1.5rem' },
                   }}
                 >
                   Pr. Biju Cherian
@@ -100,6 +104,7 @@ const HomeGreetings: React.FC = () => {
                   sx={{
                     color: 'text.secondary',
                     fontStyle: 'italic',
+                    fontSize: { xs: '0.95rem', md: '1rem' },
                   }}
                 >
                   "Serving with love and dedication"
@@ -109,7 +114,7 @@ const HomeGreetings: React.FC = () => {
           </Box>
 
           {/* Greeting Message */}
-          <Box sx={{ flex: { xs: '1', md: '0 0 67%' } }}>
+          <Box sx={{ flex: { xs: '1', md: '0 0 67%' }, width: '100%' }}>
             <EditableSection
               sectionId="home-greetings"
               pageSlug="home"
@@ -120,17 +125,18 @@ const HomeGreetings: React.FC = () => {
                 sx={{
                   position: 'relative',
                   pl: { xs: 0, md: 4 },
+                  textAlign: { xs: 'center', md: 'left' },
                 }}
               >
                 <FormatQuote
                   sx={{
                     position: 'absolute',
                     top: -20,
-                    left: { xs: -10, md: 16 },
+                    left: { xs: '50%', md: 16 },
+                    transform: { xs: 'translateX(-50%) rotate(180deg)', md: 'rotate(180deg)' },
                     fontSize: 60,
                     color: 'primary.main',
                     opacity: 0.2,
-                    transform: 'rotate(180deg)',
                   }}
                 />
 
@@ -142,6 +148,7 @@ const HomeGreetings: React.FC = () => {
                     color: 'primary.main',
                     mb: 3,
                     position: 'relative',
+                    fontSize: { xs: '2rem', md: '3rem' },
                   }}
                 >
                   Greetings
@@ -151,7 +158,7 @@ const HomeGreetings: React.FC = () => {
                   <Typography
                     variant="body1"
                     sx={{
-                      fontSize: '1.125rem',
+                      fontSize: { xs: '1rem', md: '1.125rem' },
                       lineHeight: 1.8,
                       color: 'text.primary',
                       mb: 3,
@@ -163,7 +170,7 @@ const HomeGreetings: React.FC = () => {
                   <Typography
                     variant="body1"
                     sx={{
-                      fontSize: '1.125rem',
+                      fontSize: { xs: '1rem', md: '1.125rem' },
                       lineHeight: 1.8,
                       color: 'text.primary',
                       mb: 3,
@@ -176,7 +183,7 @@ const HomeGreetings: React.FC = () => {
                   <Typography
                     variant="body1"
                     sx={{
-                      fontSize: '1.125rem',
+                      fontSize: { xs: '1rem', md: '1.125rem' },
                       lineHeight: 1.8,
                       color: 'text.primary',
                       fontWeight: 500,
@@ -193,6 +200,7 @@ const HomeGreetings: React.FC = () => {
                       borderColor: 'primary.main',
                       display: 'flex',
                       alignItems: 'center',
+                      justifyContent: { xs: 'center', md: 'flex-start' },
                       gap: 2,
                     }}
                   >
@@ -202,6 +210,7 @@ const HomeGreetings: React.FC = () => {
                         fontFamily: '"Playfair Display", serif',
                         fontStyle: 'italic',
                         color: 'text.secondary',
+                        fontSize: { xs: '0.95rem', md: '1rem' },
                       }}
                     >
                       "Come as you are, leave changed by His grace"
@@ -213,7 +222,8 @@ const HomeGreetings: React.FC = () => {
                   sx={{
                     position: 'absolute',
                     bottom: -10,
-                    right: -10,
+                    right: { xs: '50%', md: -10 },
+                    transform: { xs: 'translateX(50%)', md: 'none' },
                     fontSize: 60,
                     color: 'primary.main',
                     opacity: 0.2,

@@ -4,7 +4,7 @@ import { LocationOn, OpenInNew } from "@mui/icons-material";
 
 const FooterLocationInfo: React.FC = () => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: { xs: 'center', md: 'flex-start' }, textAlign: { xs: 'center', md: 'left' } }}>
       <Typography
         variant="h6"
         sx={{
@@ -47,7 +47,7 @@ const FooterLocationInfo: React.FC = () => {
           color: 'secondary.main',
           borderColor: 'secondary.main',
           textTransform: 'none',
-          alignSelf: 'flex-start',
+          alignSelf: { xs: 'center', md: 'flex-start' },
           '&:hover': {
             borderColor: 'secondary.light',
             backgroundColor: 'rgba(245, 158, 11, 0.1)',

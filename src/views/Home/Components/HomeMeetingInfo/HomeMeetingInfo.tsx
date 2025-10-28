@@ -72,7 +72,7 @@ const HomeMeetingInfo: React.FC = () => {
         backgroundColor: 'background.default',
       }}
     >
-      <Container maxWidth="xl" sx={{ px: 0 }}>
+      <Container maxWidth="xl" sx={{ px: { xs: 3, md: 2 } }}>
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography
             variant="h2"
@@ -98,15 +98,15 @@ const HomeMeetingInfo: React.FC = () => {
           </Typography>
         </Box>
 
-        <Stack
-          direction="row"
-          flexWrap="wrap"
-          spacing={3}
+        <Box
           sx={{
-            '& > *': {
-              flex: { xs: '1 1 100%', sm: '1 1 calc(50% - 12px)', lg: '1 1 calc(25% - 18px)' },
-              minWidth: 0,
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              lg: 'repeat(4, 1fr)'
             },
+            gap: 3,
           }}
         >
           {meetings.map((meeting, index) => (
@@ -236,7 +236,7 @@ const HomeMeetingInfo: React.FC = () => {
               </EditableSection>
             </Box>
           ))}
-        </Stack>
+        </Box>
 
         <Box sx={{ textAlign: 'center', mt: 6 }}>
           <Typography
