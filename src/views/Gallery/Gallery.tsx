@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Container,
@@ -18,13 +18,18 @@ import {
 import {
   CloudUpload as UploadIcon,
   Delete as DeleteIcon,
+  Close as CloseIcon,
+  ZoomIn as ZoomInIcon,
 } from "@mui/icons-material";
+import { motion, AnimatePresence } from "framer-motion";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Page from "../../components/Page/Page";
 import PageBanner from "../../components/Page/Components/PageBanner/PageBanner";
 import PageTitle from "../../components/Page/Components/PageTitle/PageTitle";
 import { useEditMode } from "../../components/EditMode/EditModeProvider";
-import "react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from 'react-image-gallery';
+import "./Gallery.css";
 
 // Local gallery images
 import image1 from "../../assets/photos/gallery-page/image1.jpg";
@@ -53,8 +58,8 @@ import image23 from "../../assets/photos/gallery-page/image23.jpg";
 import image24 from "../../assets/photos/gallery-page/image24.jpg";
 
 interface LocalGalleryImage {
-  original: string;
-  thumbnail: string;
+  src: string;
+  title?: string;
 }
 
 // Helper function to get image src - handles both string and StaticImageData
@@ -63,30 +68,30 @@ const getImageSrc = (img: any): string => {
 };
 
 const fallbackImages: LocalGalleryImage[] = [
-  { original: getImageSrc(image1), thumbnail: getImageSrc(image1) },
-  { original: getImageSrc(image2), thumbnail: getImageSrc(image2) },
-  { original: getImageSrc(image3), thumbnail: getImageSrc(image3) },
-  { original: getImageSrc(image4), thumbnail: getImageSrc(image4) },
-  { original: getImageSrc(image5), thumbnail: getImageSrc(image5) },
-  { original: getImageSrc(image6), thumbnail: getImageSrc(image6) },
-  { original: getImageSrc(image7), thumbnail: getImageSrc(image7) },
-  { original: getImageSrc(image8), thumbnail: getImageSrc(image8) },
-  { original: getImageSrc(image9), thumbnail: getImageSrc(image9) },
-  { original: getImageSrc(image10), thumbnail: getImageSrc(image10) },
-  { original: getImageSrc(image11), thumbnail: getImageSrc(image11) },
-  { original: getImageSrc(image12), thumbnail: getImageSrc(image12) },
-  { original: getImageSrc(image13), thumbnail: getImageSrc(image13) },
-  { original: getImageSrc(image14), thumbnail: getImageSrc(image14) },
-  { original: getImageSrc(image15), thumbnail: getImageSrc(image15) },
-  { original: getImageSrc(image16), thumbnail: getImageSrc(image16) },
-  { original: getImageSrc(image17), thumbnail: getImageSrc(image17) },
-  { original: getImageSrc(image18), thumbnail: getImageSrc(image18) },
-  { original: getImageSrc(image19), thumbnail: getImageSrc(image19) },
-  { original: getImageSrc(image20), thumbnail: getImageSrc(image20) },
-  { original: getImageSrc(image21), thumbnail: getImageSrc(image21) },
-  { original: getImageSrc(image22), thumbnail: getImageSrc(image22) },
-  { original: getImageSrc(image23), thumbnail: getImageSrc(image23) },
-  { original: getImageSrc(image24), thumbnail: getImageSrc(image24) },
+  { src: getImageSrc(image1), title: 'Gallery Image 1' },
+  { src: getImageSrc(image2), title: 'Gallery Image 2' },
+  { src: getImageSrc(image3), title: 'Gallery Image 3' },
+  { src: getImageSrc(image4), title: 'Gallery Image 4' },
+  { src: getImageSrc(image5), title: 'Gallery Image 5' },
+  { src: getImageSrc(image6), title: 'Gallery Image 6' },
+  { src: getImageSrc(image7), title: 'Gallery Image 7' },
+  { src: getImageSrc(image8), title: 'Gallery Image 8' },
+  { src: getImageSrc(image9), title: 'Gallery Image 9' },
+  { src: getImageSrc(image10), title: 'Gallery Image 10' },
+  { src: getImageSrc(image11), title: 'Gallery Image 11' },
+  { src: getImageSrc(image12), title: 'Gallery Image 12' },
+  { src: getImageSrc(image13), title: 'Gallery Image 13' },
+  { src: getImageSrc(image14), title: 'Gallery Image 14' },
+  { src: getImageSrc(image15), title: 'Gallery Image 15' },
+  { src: getImageSrc(image16), title: 'Gallery Image 16' },
+  { src: getImageSrc(image17), title: 'Gallery Image 17' },
+  { src: getImageSrc(image18), title: 'Gallery Image 18' },
+  { src: getImageSrc(image19), title: 'Gallery Image 19' },
+  { src: getImageSrc(image20), title: 'Gallery Image 20' },
+  { src: getImageSrc(image21), title: 'Gallery Image 21' },
+  { src: getImageSrc(image22), title: 'Gallery Image 22' },
+  { src: getImageSrc(image23), title: 'Gallery Image 23' },
+  { src: getImageSrc(image24), title: 'Gallery Image 24' },
 ];
 
 interface GalleryImage {
@@ -98,21 +103,71 @@ interface GalleryImage {
   order_index: number;
 }
 
+const IMAGES_PER_PAGE = 12;
+
 const Gallery: React.FC = () => {
   const { isEditMode } = useEditMode();
   const [mounted, setMounted] = useState(false);
   const [images, setImages] = useState<LocalGalleryImage[]>(fallbackImages);
+  const [displayedImages, setDisplayedImages] = useState<LocalGalleryImage[]>([]);
   const [dbImages, setDbImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
     loadGalleryImages();
   }, []);
+
+  // Initial load of images
+  useEffect(() => {
+    if (images.length > 0) {
+      const initialImages = images.slice(0, IMAGES_PER_PAGE);
+      setDisplayedImages(initialImages);
+      setHasMore(images.length > IMAGES_PER_PAGE);
+    }
+  }, [images]);
+
+  // Infinite scroll observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMoreImages();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, loading, page, images]);
+
+  const loadMoreImages = useCallback(() => {
+    const nextPage = page + 1;
+    const startIndex = page * IMAGES_PER_PAGE;
+    const endIndex = startIndex + IMAGES_PER_PAGE;
+    const newImages = images.slice(startIndex, endIndex);
+
+    if (newImages.length > 0) {
+      setDisplayedImages((prev) => [...prev, ...newImages]);
+      setPage(nextPage);
+      setHasMore(endIndex < images.length);
+    } else {
+      setHasMore(false);
+    }
+  }, [page, images]);
 
   const loadGalleryImages = async () => {
     try {
@@ -121,20 +176,16 @@ const Gallery: React.FC = () => {
 
       if (response.ok && data.success && data.images.length > 0) {
         setDbImages(data.images);
-        // Map database images to ImageGallery format
         const galleryImages = data.images.map((img: any) => ({
-          original: img.image_url,
-          thumbnail: img.thumbnail_url || img.image_url,
-          description: img.title || '',
+          src: img.image_url,
+          title: img.title || '',
         }));
         setImages(galleryImages);
       } else {
-        // Use fallback images if no images in database
         console.log('No images in database, using fallback images');
       }
     } catch (error) {
       console.error('Error loading gallery images:', error);
-      // Keep using fallback images on error
     } finally {
       setLoading(false);
     }
@@ -144,14 +195,12 @@ const Gallery: React.FC = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       setMessage('Please select an image file');
       setMessageType('error');
       return;
     }
 
-    // Validate file size (max 10MB for Cloudinary free tier)
     if (file.size > 10 * 1024 * 1024) {
       setMessage('Image size must be less than 10MB');
       setMessageType('error');
@@ -159,11 +208,10 @@ const Gallery: React.FC = () => {
     }
 
     setUploading(true);
-    setUploadProgress(50); // Show progress while uploading
+    setUploadProgress(50);
     setMessage('');
 
     try {
-      // Upload to Cloudinary via API
       const formData = new FormData();
       formData.append('file', file);
 
@@ -184,14 +232,13 @@ const Gallery: React.FC = () => {
 
       setUploadProgress(75);
 
-      // Save to database
       const response = await fetch('/api/admin/gallery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           image_url: uploadData.url,
           thumbnail_url: uploadData.url,
-          title: file.name.replace(/\.[^/.]+$/, ''), // Remove extension
+          title: file.name.replace(/\.[^/.]+$/, ''),
           description: '',
           order_index: dbImages.length,
         }),
@@ -204,7 +251,6 @@ const Gallery: React.FC = () => {
         setMessageType('success');
         setUploadProgress(100);
         loadGalleryImages();
-        // Reset file input
         event.target.value = '';
       } else {
         setMessage(data.error || 'Failed to save image to database');
@@ -247,13 +293,42 @@ const Gallery: React.FC = () => {
     }
   };
 
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+  };
+
+  // Container animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  // Image card animation variants
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <Page name="gallery">
       <PageBanner>
         <PageTitle title="Gallery" />
       </PageBanner>
 
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1, sm: 2, md: 3 } }}>
         {message && (
           <Alert severity={messageType} sx={{ mb: 3 }} onClose={() => setMessage('')}>
             {message}
@@ -267,12 +342,17 @@ const Gallery: React.FC = () => {
         ) : isEditMode ? (
           // Edit Mode - Grid view with upload and delete
           <Box>
-            <Card sx={{ mb: 4, p: 3 }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
+            <Card sx={{ mb: { xs: 2, sm: 3, md: 4 }, p: { xs: 2, sm: 3 } }}>
+              <Typography variant="h6" sx={{ mb: 2, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                 Upload New Image
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: { xs: 'flex-start', sm: 'center' },
+                  gap: 2
+                }}>
                   <Button
                     variant="contained"
                     component="label"
@@ -287,7 +367,7 @@ const Gallery: React.FC = () => {
                       onChange={handleFileUpload}
                     />
                   </Button>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                     Max file size: 10MB. Supported formats: JPG, PNG, GIF, WebP
                   </Typography>
                 </Box>
@@ -307,7 +387,7 @@ const Gallery: React.FC = () => {
               </Box>
             </Card>
 
-            <Grid container spacing={3}>
+            <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
               {dbImages.length > 0 ? (
                 dbImages.map((image) => (
                   <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={image.id}>
@@ -336,12 +416,12 @@ const Gallery: React.FC = () => {
                 ))
               ) : (
                 <Grid size={12}>
-                  <Card sx={{ p: 4, textAlign: 'center' }}>
-                    <UploadIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-                    <Typography variant="h6" color="text.secondary">
+                  <Card sx={{ p: { xs: 3, sm: 4 }, textAlign: 'center' }}>
+                    <UploadIcon sx={{ fontSize: { xs: 48, sm: 64 }, color: 'text.secondary', mb: 2 }} />
+                    <Typography variant="h6" color="text.secondary" sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}>
                       No images yet
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                       Upload your first image to start building your gallery
                     </Typography>
                   </Card>
@@ -350,32 +430,143 @@ const Gallery: React.FC = () => {
             </Grid>
           </Box>
         ) : (
-          // Normal Mode - Image Gallery view
-          <Box sx={{
-            '& .image-gallery': {
-              backgroundColor: 'background.paper',
-              borderRadius: 2,
-              overflow: 'hidden',
-              boxShadow: 2,
-            },
-            '& .image-gallery-slide img': {
-              maxHeight: '70vh',
-              objectFit: 'contain',
-            },
-            '& .image-gallery-thumbnail img': {
-              borderRadius: 1,
-            }
-          }}>
-            <ImageGallery
-              items={images}
-              autoPlay={true}
-              showBullets={true}
-              slideInterval={5000}
-              showThumbnails={true}
-              showPlayButton={true}
-              showFullscreenButton={true}
-              showNav={true}
-              useBrowserFullscreen={true}
+          // Normal Mode - Modern Grid with Lightbox
+          <Box>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
+                <AnimatePresence>
+                  {displayedImages.map((image, index) => (
+                    <Grid size={{ xs: 6, sm: 4, md: 3 }} key={index}>
+                      <motion.div
+                        variants={cardVariants}
+                        layout
+                        whileHover={{ scale: 1.15, transition: { duration: 0.3 } }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Box
+                          className="gallery-image-card"
+                          onClick={() => openLightbox(index)}
+                          sx={{
+                            position: 'relative',
+                            paddingTop: '100%',
+                            borderRadius: { xs: 1, sm: 2 },
+                            overflow: 'hidden',
+                            cursor: 'pointer',
+                            boxShadow: 2,
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              boxShadow: 8,
+                              '& .gallery-image-overlay': {
+                                opacity: 1,
+                              },
+                            },
+                          }}
+                        >
+                          <Box
+                            component="img"
+                            src={image.src}
+                            alt={image.title || `Gallery image ${index + 1}`}
+                            loading="lazy"
+                            sx={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                            }}
+                          />
+                          <Box
+                            className="gallery-image-overlay"
+                            sx={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%)',
+                              opacity: 0,
+                              transition: 'opacity 0.3s ease',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'flex-end',
+                              padding: 2,
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  color: 'white',
+                                  fontWeight: 500,
+                                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                                }}
+                              >
+                                {image.title || `Image ${index + 1}`}
+                              </Typography>
+                              <ZoomInIcon sx={{ color: 'white', fontSize: { xs: 18, sm: 20 } }} />
+                            </Box>
+                          </Box>
+                        </Box>
+                      </motion.div>
+                    </Grid>
+                  ))}
+                </AnimatePresence>
+              </Grid>
+            </motion.div>
+
+            {/* Infinite scroll trigger */}
+            {hasMore && (
+              <Box
+                ref={observerTarget}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  py: 4,
+                }}
+              >
+                <CircularProgress size={40} />
+              </Box>
+            )}
+
+            {/* Lightbox */}
+            <Lightbox
+              open={lightboxOpen}
+              close={() => setLightboxOpen(false)}
+              index={currentImageIndex}
+              slides={images.map((img) => ({ src: img.src, alt: img.title }))}
+              plugins={[Zoom]}
+              zoom={{
+                maxZoomPixelRatio: 3,
+                scrollToZoom: true,
+              }}
+              carousel={{
+                finite: false,
+                preload: 2,
+              }}
+              animation={{
+                fade: 300,
+                swipe: 300,
+              }}
+              controller={{
+                closeOnBackdropClick: true,
+              }}
+              styles={{
+                container: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                },
+              }}
             />
           </Box>
         )}
