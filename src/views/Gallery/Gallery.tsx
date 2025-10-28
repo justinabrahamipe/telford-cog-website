@@ -85,7 +85,10 @@ const Gallery: React.FC = () => {
           loadMoreImages();
         }
       },
-      { threshold: 0.5 }
+      {
+        threshold: 0.1,
+        rootMargin: '100px'
+      }
     );
 
     if (observerTarget.current) {
@@ -489,7 +492,8 @@ const Gallery: React.FC = () => {
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  py: 4,
+                  py: { xs: 6, sm: 4 },
+                  minHeight: { xs: '150px', sm: '100px' },
                 }}
               >
                 <CircularProgress size={40} />
