@@ -1,6 +1,6 @@
 import Home from '../src/views/Home/Home';
 import { generateMetadata as generateMeta, generateChurchSchema } from '../src/lib/seo';
-import { StructuredData } from '../src/components/SEO/StructuredData';
+import Script from 'next/script';
 
 export const metadata = generateMeta('home');
 
@@ -9,7 +9,11 @@ export default function HomePage() {
 
   return (
     <>
-      <StructuredData data={churchSchema} />
+      <Script
+        id="church-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(churchSchema) }}
+      />
       <Home />
     </>
   );

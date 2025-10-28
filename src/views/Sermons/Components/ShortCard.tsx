@@ -1,16 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Typography, Box, Chip } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import { PlayCircle as PlayIcon } from '@mui/icons-material';
 import type { YouTubeVideo } from '@/src/types/youtube';
 
-interface SermonCardProps {
+interface ShortCardProps {
   video: YouTubeVideo;
   onClick: () => void;
 }
 
-export default function SermonCard({ video, onClick }: SermonCardProps) {
+export default function ShortCard({ video, onClick }: ShortCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
@@ -27,26 +27,23 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
         cursor: 'pointer',
         width: '100%',
         height: '100%',
-        backgroundColor: 'background.paper',
         borderRadius: 1,
         overflow: 'hidden',
-        boxShadow: 1,
         transition: 'all 0.3s ease-in-out',
         '&:hover': {
           transform: 'translateY(-8px)',
-          boxShadow: 6,
           '& .play-overlay': {
             opacity: 1,
           },
         },
       }}
     >
-      {/* Thumbnail - 16:9 Ratio */}
+      {/* Thumbnail - 9:16 Ratio (Vertical) */}
       <Box
         sx={{
           position: 'relative',
           width: '100%',
-          paddingTop: '56.25%', // 16:9 aspect ratio
+          paddingTop: '177.78%', // 9:16 aspect ratio (16/9 * 100)
           overflow: 'hidden',
           backgroundColor: '#000',
         }}
@@ -80,7 +77,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
             transition: 'opacity 0.3s ease',
           }}
         >
-          <PlayIcon sx={{ fontSize: 64, color: 'white' }} />
+          <PlayIcon sx={{ fontSize: 48, color: 'white' }} />
         </Box>
 
         {/* Date overlay at bottom */}
@@ -88,7 +85,8 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
           sx={{
             position: 'absolute',
             bottom: 8,
-            left: 8,
+            left: '50%',
+            transform: 'translateX(-50%)',
           }}
         >
           <Chip
@@ -96,7 +94,7 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
             size="small"
             sx={{
               fontWeight: 500,
-              fontSize: '0.75rem',
+              fontSize: '0.7rem',
               backgroundColor: 'rgba(0, 0, 0, 0.7)',
               color: 'white',
               '& .MuiChip-label': {
@@ -105,31 +103,6 @@ export default function SermonCard({ video, onClick }: SermonCardProps) {
             }}
           />
         </Box>
-      </Box>
-
-      {/* Content - Title only */}
-      <Box
-        sx={{
-          height: '100px',
-          p: 2,
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Typography
-          variant="h6"
-          component="h3"
-          sx={{
-            fontWeight: 600,
-            lineHeight: 1.3,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
-          }}
-        >
-          {video.title}
-        </Typography>
       </Box>
     </Box>
   );

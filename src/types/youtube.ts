@@ -8,6 +8,7 @@ export interface YouTubeVideo {
   publishedAt: string;
   videoId: string;
   duration?: string;
+  isShort?: boolean;
 }
 
 export interface YouTubePlaylistResponse {

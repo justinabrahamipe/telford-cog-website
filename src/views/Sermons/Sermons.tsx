@@ -16,6 +16,7 @@ import Page from '../../components/Page/Page';
 import PageBanner from '../../components/Page/Components/PageBanner/PageBanner';
 import PageTitle from '../../components/Page/Components/PageTitle/PageTitle';
 import SermonCard from './Components/SermonCard';
+import ShortCard from './Components/ShortCard';
 import VideoModal from './Components/VideoModal';
 import type { YouTubeVideo } from '@/src/types/youtube';
 
@@ -83,6 +84,15 @@ const Sermons: React.FC = () => {
 
     return sorted;
   }, [videos, searchQuery, sortBy]);
+
+  // Separate shorts from regular sermons
+  const shorts = useMemo(() => {
+    return filteredVideos.filter((video) => video.isShort);
+  }, [filteredVideos]);
+
+  const regularSermons = useMemo(() => {
+    return filteredVideos.filter((video) => !video.isShort);
+  }, [filteredVideos]);
 
   const handleVideoClick = (video: YouTubeVideo) => {
     setSelectedVideo(video);
@@ -166,24 +176,71 @@ const Sermons: React.FC = () => {
                 </Typography>
               </Box>
             ) : (
-              <>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Showing {filteredVideos.length} message{filteredVideos.length !== 1 ? 's' : ''}
-                </Typography>
-                <Box
-                  sx={{
-                    display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
-                    gap: 3,
-                  }}
-                >
-                  {filteredVideos.map((video) => (
-                    <Box key={video.id}>
-                      <SermonCard video={video} onClick={() => handleVideoClick(video)} />
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: {
+                    xs: '1fr',
+                    md: shorts.length > 0 && regularSermons.length > 0 ? '480px 1fr' : '1fr',
+                  },
+                  gap: 4,
+                  alignItems: 'start',
+                }}
+              >
+                {/* Shorts Section */}
+                {shorts.length > 0 && (
+                  <Box>
+                    <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                      Shorts
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      Showing {shorts.length} short{shorts.length !== 1 ? 's' : ''}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: 'grid',
+                        gridTemplateColumns: {
+                          xs: 'repeat(3, 1fr)',
+                          sm: 'repeat(4, 1fr)',
+                          md: 'repeat(2, 1fr)',
+                        },
+                        gap: 2,
+                      }}
+                    >
+                      {shorts.map((video) => (
+                        <Box key={video.id}>
+                          <ShortCard video={video} onClick={() => handleVideoClick(video)} />
+                        </Box>
+                      ))}
                     </Box>
-                  ))}
-                </Box>
-              </>
+                  </Box>
+                )}
+
+                {/* Regular Sermons Section */}
+                {regularSermons.length > 0 && (
+                  <Box>
+                    <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
+                      {shorts.length > 0 ? 'Full Messages' : 'Messages'}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      Showing {regularSermons.length} message{regularSermons.length !== 1 ? 's' : ''}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: 'grid',
+                        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
+                        gap: 3,
+                      }}
+                    >
+                      {regularSermons.map((video) => (
+                        <Box key={video.id}>
+                          <SermonCard video={video} onClick={() => handleVideoClick(video)} />
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                )}
+              </Box>
             )}
           </>
         )}
