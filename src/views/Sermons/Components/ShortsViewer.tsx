@@ -32,7 +32,7 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
   // Handle touch end - detect swipe direction
   const handleTouchEnd = () => {
     const swipeDistance = touchStartY.current - touchEndY.current;
-    const minSwipeDistance = 50;
+    const minSwipeDistance = 80; // Increased to avoid accidental navigation
 
     if (Math.abs(swipeDistance) > minSwipeDistance) {
       if (swipeDistance > 0 && currentIndex < shorts.length - 1) {
@@ -64,9 +64,6 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
   return (
     <Box
       ref={containerRef}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
       sx={{
         position: 'fixed',
         top: 0,
@@ -80,6 +77,21 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
         justifyContent: 'center',
       }}
     >
+      {/* Touch Overlay for Swipe Gestures - captures touches but allows clicks */}
+      <Box
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 5,
+          touchAction: 'pan-y', // Enable vertical swipe gestures
+        }}
+      />
       {/* Back Button */}
       <IconButton
         onClick={onClose}
@@ -129,7 +141,7 @@ export default function ShortsViewer({ shorts, initialIndex, onClose }: ShortsVi
           display: 'flex',
           flexDirection: 'column',
           gap: 1,
-          zIndex: 10,
+          zIndex: 100,
         }}
       >
         {currentIndex > 0 && (
