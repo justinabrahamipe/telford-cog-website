@@ -23,6 +23,7 @@ import {
   Grid,
   IconButton,
   LinearProgress,
+  Tooltip,
 } from '@mui/material';
 import {
   ArrowBack,
@@ -453,72 +454,100 @@ export default function AdminGalleryManager() {
                     const idx = images.findIndex((i) => i.id === image.id);
                     return (
                       <>
-                        <IconButton
-                          size="small"
-                          onClick={() => handleJump(image, 'top')}
-                          disabled={idx === 0}
-                          aria-label="Move to top"
-                        >
-                          <VerticalAlignTop />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          onClick={() => handleMove(image, 'up', 5)}
-                          disabled={idx < 5}
-                          aria-label="Move up 5"
-                        >
-                          <KeyboardDoubleArrowUp />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          onClick={() => handleMove(image, 'up')}
-                          disabled={idx === 0}
-                          aria-label="Move up"
-                        >
-                          <ArrowUpward />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          onClick={() => handleMove(image, 'down')}
-                          disabled={idx === images.length - 1}
-                          aria-label="Move down"
-                        >
-                          <ArrowDownward />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          onClick={() => handleMove(image, 'down', 5)}
-                          disabled={idx > images.length - 6}
-                          aria-label="Move down 5"
-                        >
-                          <KeyboardDoubleArrowDown />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          onClick={() => handleJump(image, 'bottom')}
-                          disabled={idx === images.length - 1}
-                          aria-label="Move to bottom"
-                        >
-                          <VerticalAlignBottom />
-                        </IconButton>
+                        <Tooltip title="Move to top">
+                          <span>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleJump(image, 'top')}
+                              disabled={idx === 0}
+                              aria-label="Move to top"
+                            >
+                              <VerticalAlignTop />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                        <Tooltip title="Move up 5">
+                          <span>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleMove(image, 'up', 5)}
+                              disabled={idx < 5}
+                              aria-label="Move up 5"
+                            >
+                              <KeyboardDoubleArrowUp />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                        <Tooltip title="Move up 1">
+                          <span>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleMove(image, 'up')}
+                              disabled={idx === 0}
+                              aria-label="Move up"
+                            >
+                              <ArrowUpward />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                        <Tooltip title="Move down 1">
+                          <span>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleMove(image, 'down')}
+                              disabled={idx === images.length - 1}
+                              aria-label="Move down"
+                            >
+                              <ArrowDownward />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                        <Tooltip title="Move down 5">
+                          <span>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleMove(image, 'down', 5)}
+                              disabled={idx > images.length - 6}
+                              aria-label="Move down 5"
+                            >
+                              <KeyboardDoubleArrowDown />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                        <Tooltip title="Move to bottom">
+                          <span>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleJump(image, 'bottom')}
+                              disabled={idx === images.length - 1}
+                              aria-label="Move to bottom"
+                            >
+                              <VerticalAlignBottom />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
                       </>
                     );
                   })()}
                   <Box sx={{ flexGrow: 1 }} />
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={() => handleOpenDialog(image)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    color="error"
-                    onClick={() => handleDelete(image.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  <Tooltip title="Edit details">
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      onClick={() => handleOpenDialog(image)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => handleDelete(image.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
                 </CardActions>
               </Card>
             </Grid>

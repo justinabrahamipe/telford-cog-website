@@ -14,6 +14,7 @@ import {
   Typography,
   Alert,
   LinearProgress,
+  Tooltip,
 } from "@mui/material";
 import {
   CloudUpload as UploadIcon,
@@ -444,65 +445,91 @@ const Gallery: React.FC = () => {
                             const idx = dbImages.findIndex((i) => i.id === image.id);
                             return (
                               <>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleJump(image, 'top')}
-                                  disabled={idx === 0}
-                                  aria-label="Move to top"
-                                >
-                                  <VerticalAlignTop fontSize="small" />
-                                </IconButton>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleMove(image, 'up', 5)}
-                                  disabled={idx < 5}
-                                  aria-label="Move up 5"
-                                >
-                                  <KeyboardDoubleArrowUp fontSize="small" />
-                                </IconButton>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleMove(image, 'up')}
-                                  disabled={idx === 0}
-                                  aria-label="Move up"
-                                >
-                                  <ArrowUpward fontSize="small" />
-                                </IconButton>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleMove(image, 'down')}
-                                  disabled={idx === dbImages.length - 1}
-                                  aria-label="Move down"
-                                >
-                                  <ArrowDownward fontSize="small" />
-                                </IconButton>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleMove(image, 'down', 5)}
-                                  disabled={idx > dbImages.length - 6}
-                                  aria-label="Move down 5"
-                                >
-                                  <KeyboardDoubleArrowDown fontSize="small" />
-                                </IconButton>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleJump(image, 'bottom')}
-                                  disabled={idx === dbImages.length - 1}
-                                  aria-label="Move to bottom"
-                                >
-                                  <VerticalAlignBottom fontSize="small" />
-                                </IconButton>
+                                <Tooltip title="Move to top">
+                                  <span>
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => handleJump(image, 'top')}
+                                      disabled={idx === 0}
+                                      aria-label="Move to top"
+                                    >
+                                      <VerticalAlignTop fontSize="small" />
+                                    </IconButton>
+                                  </span>
+                                </Tooltip>
+                                <Tooltip title="Move up 5">
+                                  <span>
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => handleMove(image, 'up', 5)}
+                                      disabled={idx < 5}
+                                      aria-label="Move up 5"
+                                    >
+                                      <KeyboardDoubleArrowUp fontSize="small" />
+                                    </IconButton>
+                                  </span>
+                                </Tooltip>
+                                <Tooltip title="Move up 1">
+                                  <span>
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => handleMove(image, 'up')}
+                                      disabled={idx === 0}
+                                      aria-label="Move up"
+                                    >
+                                      <ArrowUpward fontSize="small" />
+                                    </IconButton>
+                                  </span>
+                                </Tooltip>
+                                <Tooltip title="Move down 1">
+                                  <span>
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => handleMove(image, 'down')}
+                                      disabled={idx === dbImages.length - 1}
+                                      aria-label="Move down"
+                                    >
+                                      <ArrowDownward fontSize="small" />
+                                    </IconButton>
+                                  </span>
+                                </Tooltip>
+                                <Tooltip title="Move down 5">
+                                  <span>
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => handleMove(image, 'down', 5)}
+                                      disabled={idx > dbImages.length - 6}
+                                      aria-label="Move down 5"
+                                    >
+                                      <KeyboardDoubleArrowDown fontSize="small" />
+                                    </IconButton>
+                                  </span>
+                                </Tooltip>
+                                <Tooltip title="Move to bottom">
+                                  <span>
+                                    <IconButton
+                                      size="small"
+                                      onClick={() => handleJump(image, 'bottom')}
+                                      disabled={idx === dbImages.length - 1}
+                                      aria-label="Move to bottom"
+                                    >
+                                      <VerticalAlignBottom fontSize="small" />
+                                    </IconButton>
+                                  </span>
+                                </Tooltip>
                               </>
                             );
                           })()}
                         </Box>
-                        <IconButton
-                          size="small"
-                          color="error"
-                          onClick={() => handleDelete(image.id)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                        <Tooltip title="Delete">
+                          <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() => handleDelete(image.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
                       </CardActions>
                     </Card>
                   </Grid>
