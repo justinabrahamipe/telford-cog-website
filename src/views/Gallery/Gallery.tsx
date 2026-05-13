@@ -21,6 +21,8 @@ import {
   ZoomIn as ZoomInIcon,
   ArrowUpward,
   ArrowDownward,
+  KeyboardDoubleArrowUp,
+  KeyboardDoubleArrowDown,
   VerticalAlignTop,
   VerticalAlignBottom,
 } from "@mui/icons-material";
@@ -265,12 +267,12 @@ const Gallery: React.FC = () => {
     }
   };
 
-  const handleMove = async (image: GalleryImage, direction: 'up' | 'down') => {
+  const handleMove = async (image: GalleryImage, direction: 'up' | 'down', steps = 1) => {
     const index = dbImages.findIndex((i) => i.id === image.id);
-    if (direction === 'up' && index <= 0) return;
-    if (direction === 'down' && index >= dbImages.length - 1) return;
+    const targetIndex = direction === 'up' ? index - steps : index + steps;
+    if (targetIndex < 0 || targetIndex >= dbImages.length) return;
 
-    const swapWith = dbImages[direction === 'up' ? index - 1 : index + 1];
+    const swapWith = dbImages[targetIndex];
 
     try {
       await Promise.all([
@@ -436,40 +438,63 @@ const Gallery: React.FC = () => {
                         alt={image.title}
                         sx={{ objectFit: 'cover' }}
                       />
-                      <CardActions sx={{ justifyContent: 'space-between', px: 0.5 }}>
-                        <Box sx={{ display: 'flex' }}>
-                          <IconButton
-                            size="small"
-                            onClick={() => handleJump(image, 'top')}
-                            disabled={dbImages.findIndex((i) => i.id === image.id) === 0}
-                            aria-label="Move to top"
-                          >
-                            <VerticalAlignTop fontSize="small" />
-                          </IconButton>
-                          <IconButton
-                            size="small"
-                            onClick={() => handleMove(image, 'up')}
-                            disabled={dbImages.findIndex((i) => i.id === image.id) === 0}
-                            aria-label="Move up"
-                          >
-                            <ArrowUpward fontSize="small" />
-                          </IconButton>
-                          <IconButton
-                            size="small"
-                            onClick={() => handleMove(image, 'down')}
-                            disabled={dbImages.findIndex((i) => i.id === image.id) === dbImages.length - 1}
-                            aria-label="Move down"
-                          >
-                            <ArrowDownward fontSize="small" />
-                          </IconButton>
-                          <IconButton
-                            size="small"
-                            onClick={() => handleJump(image, 'bottom')}
-                            disabled={dbImages.findIndex((i) => i.id === image.id) === dbImages.length - 1}
-                            aria-label="Move to bottom"
-                          >
-                            <VerticalAlignBottom fontSize="small" />
-                          </IconButton>
+                      <CardActions sx={{ justifyContent: 'space-between', px: 0.5, flexWrap: 'wrap' }}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                          {(() => {
+                            const idx = dbImages.findIndex((i) => i.id === image.id);
+                            return (
+                              <>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => handleJump(image, 'top')}
+                                  disabled={idx === 0}
+                                  aria-label="Move to top"
+                                >
+                                  <VerticalAlignTop fontSize="small" />
+                                </IconButton>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => handleMove(image, 'up', 5)}
+                                  disabled={idx < 5}
+                                  aria-label="Move up 5"
+                                >
+                                  <KeyboardDoubleArrowUp fontSize="small" />
+                                </IconButton>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => handleMove(image, 'up')}
+                                  disabled={idx === 0}
+                                  aria-label="Move up"
+                                >
+                                  <ArrowUpward fontSize="small" />
+                                </IconButton>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => handleMove(image, 'down')}
+                                  disabled={idx === dbImages.length - 1}
+                                  aria-label="Move down"
+                                >
+                                  <ArrowDownward fontSize="small" />
+                                </IconButton>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => handleMove(image, 'down', 5)}
+                                  disabled={idx > dbImages.length - 6}
+                                  aria-label="Move down 5"
+                                >
+                                  <KeyboardDoubleArrowDown fontSize="small" />
+                                </IconButton>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => handleJump(image, 'bottom')}
+                                  disabled={idx === dbImages.length - 1}
+                                  aria-label="Move to bottom"
+                                >
+                                  <VerticalAlignBottom fontSize="small" />
+                                </IconButton>
+                              </>
+                            );
+                          })()}
                         </Box>
                         <IconButton
                           size="small"

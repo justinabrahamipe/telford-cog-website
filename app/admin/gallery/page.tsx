@@ -28,6 +28,8 @@ import {
   ArrowBack,
   ArrowUpward,
   ArrowDownward,
+  KeyboardDoubleArrowUp,
+  KeyboardDoubleArrowDown,
   VerticalAlignTop,
   VerticalAlignBottom,
   Add as AddIcon,
@@ -194,12 +196,12 @@ export default function AdminGalleryManager() {
     }
   };
 
-  const handleMove = async (image: GalleryImage, direction: 'up' | 'down') => {
+  const handleMove = async (image: GalleryImage, direction: 'up' | 'down', steps = 1) => {
     const index = images.findIndex((i) => i.id === image.id);
-    if (direction === 'up' && index <= 0) return;
-    if (direction === 'down' && index >= images.length - 1) return;
+    const targetIndex = direction === 'up' ? index - steps : index + steps;
+    if (targetIndex < 0 || targetIndex >= images.length) return;
 
-    const swapWith = images[direction === 'up' ? index - 1 : index + 1];
+    const swapWith = images[targetIndex];
 
     try {
       await Promise.all([
@@ -446,39 +448,62 @@ export default function AdminGalleryManager() {
                     Order: {image.order_index}
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleJump(image, 'top')}
-                    disabled={images.findIndex((i) => i.id === image.id) === 0}
-                    aria-label="Move to top"
-                  >
-                    <VerticalAlignTop />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleMove(image, 'up')}
-                    disabled={images.findIndex((i) => i.id === image.id) === 0}
-                    aria-label="Move up"
-                  >
-                    <ArrowUpward />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleMove(image, 'down')}
-                    disabled={images.findIndex((i) => i.id === image.id) === images.length - 1}
-                    aria-label="Move down"
-                  >
-                    <ArrowDownward />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handleJump(image, 'bottom')}
-                    disabled={images.findIndex((i) => i.id === image.id) === images.length - 1}
-                    aria-label="Move to bottom"
-                  >
-                    <VerticalAlignBottom />
-                  </IconButton>
+                <CardActions sx={{ flexWrap: 'wrap' }}>
+                  {(() => {
+                    const idx = images.findIndex((i) => i.id === image.id);
+                    return (
+                      <>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleJump(image, 'top')}
+                          disabled={idx === 0}
+                          aria-label="Move to top"
+                        >
+                          <VerticalAlignTop />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleMove(image, 'up', 5)}
+                          disabled={idx < 5}
+                          aria-label="Move up 5"
+                        >
+                          <KeyboardDoubleArrowUp />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleMove(image, 'up')}
+                          disabled={idx === 0}
+                          aria-label="Move up"
+                        >
+                          <ArrowUpward />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleMove(image, 'down')}
+                          disabled={idx === images.length - 1}
+                          aria-label="Move down"
+                        >
+                          <ArrowDownward />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleMove(image, 'down', 5)}
+                          disabled={idx > images.length - 6}
+                          aria-label="Move down 5"
+                        >
+                          <KeyboardDoubleArrowDown />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleJump(image, 'bottom')}
+                          disabled={idx === images.length - 1}
+                          aria-label="Move to bottom"
+                        >
+                          <VerticalAlignBottom />
+                        </IconButton>
+                      </>
+                    );
+                  })()}
                   <Box sx={{ flexGrow: 1 }} />
                   <IconButton
                     size="small"
