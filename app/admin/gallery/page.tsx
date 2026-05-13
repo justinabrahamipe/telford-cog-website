@@ -26,6 +26,8 @@ import {
 } from '@mui/material';
 import {
   ArrowBack,
+  ArrowUpward,
+  ArrowDownward,
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
@@ -109,12 +111,15 @@ export default function AdminGalleryManager() {
       });
     } else {
       setEditingImage(null);
+      const firstOrder = images.length > 0
+        ? Math.min(...images.map((i) => i.order_index)) - 1
+        : 0;
       setFormData({
         image_url: '',
         thumbnail_url: '',
         title: '',
         description: '',
-        order_index: 0,
+        order_index: firstOrder,
       });
     }
     setDialogOpen(true);
@@ -187,6 +192,46 @@ export default function AdminGalleryManager() {
     }
   };
 
+  const handleMove = async (image: GalleryImage, direction: 'up' | 'down') => {
+    const index = images.findIndex((i) => i.id === image.id);
+    if (direction === 'up' && index <= 0) return;
+    if (direction === 'down' && index >= images.length - 1) return;
+
+    const swapWith = images[direction === 'up' ? index - 1 : index + 1];
+
+    try {
+      await Promise.all([
+        fetch(`/api/admin/gallery/${image.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image_url: image.image_url,
+            thumbnail_url: image.thumbnail_url,
+            title: image.title,
+            description: image.description,
+            order_index: swapWith.order_index,
+          }),
+        }),
+        fetch(`/api/admin/gallery/${swapWith.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image_url: swapWith.image_url,
+            thumbnail_url: swapWith.thumbnail_url,
+            title: swapWith.title,
+            description: swapWith.description,
+            order_index: image.order_index,
+          }),
+        }),
+      ]);
+      loadImages();
+    } catch (error) {
+      console.error('Error reordering image:', error);
+      setMessage('Failed to reorder image');
+      setMessageType('error');
+    }
+  };
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -231,7 +276,10 @@ export default function AdminGalleryManager() {
 
       setUploadProgress(75);
 
-      // Save to database
+      // Save to database — put new image first
+      const firstOrder = images.length > 0
+        ? Math.min(...images.map((i) => i.order_index)) - 1
+        : 0;
       const response = await fetch('/api/admin/gallery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -240,7 +288,7 @@ export default function AdminGalleryManager() {
           thumbnail_url: uploadData.url,
           title: file.name.replace(/\.[^/.]+$/, ''), // Remove extension
           description: '',
-          order_index: images.length,
+          order_index: firstOrder,
         }),
       });
 
@@ -371,6 +419,23 @@ export default function AdminGalleryManager() {
                   </Typography>
                 </CardContent>
                 <CardActions>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleMove(image, 'up')}
+                    disabled={images.findIndex((i) => i.id === image.id) === 0}
+                    aria-label="Move up"
+                  >
+                    <ArrowUpward />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleMove(image, 'down')}
+                    disabled={images.findIndex((i) => i.id === image.id) === images.length - 1}
+                    aria-label="Move down"
+                  >
+                    <ArrowDownward />
+                  </IconButton>
+                  <Box sx={{ flexGrow: 1 }} />
                   <IconButton
                     size="small"
                     color="primary"
