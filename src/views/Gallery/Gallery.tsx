@@ -19,6 +19,8 @@ import {
   CloudUpload as UploadIcon,
   Delete as DeleteIcon,
   ZoomIn as ZoomInIcon,
+  ArrowUpward,
+  ArrowDownward,
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
 import Lightbox from "yet-another-react-lightbox";
@@ -197,6 +199,9 @@ const Gallery: React.FC = () => {
 
       setUploadProgress(75);
 
+      const firstOrder = dbImages.length > 0
+        ? Math.min(...dbImages.map((i) => i.order_index)) - 1
+        : 0;
       const response = await fetch('/api/admin/gallery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -205,7 +210,7 @@ const Gallery: React.FC = () => {
           thumbnail_url: uploadData.url,
           title: file.name.replace(/\.[^/.]+$/, ''),
           description: '',
-          order_index: dbImages.length,
+          order_index: firstOrder,
         }),
       });
 
@@ -254,6 +259,46 @@ const Gallery: React.FC = () => {
     } catch (error) {
       console.error('Error deleting image:', error);
       setMessage('Failed to delete image');
+      setMessageType('error');
+    }
+  };
+
+  const handleMove = async (image: GalleryImage, direction: 'up' | 'down') => {
+    const index = dbImages.findIndex((i) => i.id === image.id);
+    if (direction === 'up' && index <= 0) return;
+    if (direction === 'down' && index >= dbImages.length - 1) return;
+
+    const swapWith = dbImages[direction === 'up' ? index - 1 : index + 1];
+
+    try {
+      await Promise.all([
+        fetch(`/api/admin/gallery/${image.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image_url: image.image_url,
+            thumbnail_url: image.thumbnail_url,
+            title: image.title,
+            description: image.description,
+            order_index: swapWith.order_index,
+          }),
+        }),
+        fetch(`/api/admin/gallery/${swapWith.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image_url: swapWith.image_url,
+            thumbnail_url: swapWith.thumbnail_url,
+            title: swapWith.title,
+            description: swapWith.description,
+            order_index: image.order_index,
+          }),
+        }),
+      ]);
+      loadGalleryImages();
+    } catch (error) {
+      console.error('Error reordering image:', error);
+      setMessage('Failed to reorder image');
       setMessageType('error');
     }
   };
@@ -363,10 +408,25 @@ const Gallery: React.FC = () => {
                         alt={image.title}
                         sx={{ objectFit: 'cover' }}
                       />
-                      <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
-                        <Typography variant="body2" noWrap sx={{ flex: 1 }}>
-                          {image.title || 'Untitled'}
-                        </Typography>
+                      <CardActions sx={{ justifyContent: 'space-between', px: 1 }}>
+                        <Box sx={{ display: 'flex' }}>
+                          <IconButton
+                            size="small"
+                            onClick={() => handleMove(image, 'up')}
+                            disabled={dbImages.findIndex((i) => i.id === image.id) === 0}
+                            aria-label="Move up"
+                          >
+                            <ArrowUpward fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            onClick={() => handleMove(image, 'down')}
+                            disabled={dbImages.findIndex((i) => i.id === image.id) === dbImages.length - 1}
+                            aria-label="Move down"
+                          >
+                            <ArrowDownward fontSize="small" />
+                          </IconButton>
+                        </Box>
                         <IconButton
                           size="small"
                           color="error"
