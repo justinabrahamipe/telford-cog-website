@@ -28,6 +28,8 @@ import {
   ArrowBack,
   ArrowUpward,
   ArrowDownward,
+  VerticalAlignTop,
+  VerticalAlignBottom,
   Add as AddIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
@@ -232,6 +234,32 @@ export default function AdminGalleryManager() {
     }
   };
 
+  const handleJump = async (image: GalleryImage, target: 'top' | 'bottom') => {
+    if (images.length <= 1) return;
+    const others = images.filter((i) => i.id !== image.id).map((i) => i.order_index);
+    const newOrder = target === 'top' ? Math.min(...others) - 1 : Math.max(...others) + 1;
+    if (newOrder === image.order_index) return;
+
+    try {
+      await fetch(`/api/admin/gallery/${image.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image_url: image.image_url,
+          thumbnail_url: image.thumbnail_url,
+          title: image.title,
+          description: image.description,
+          order_index: newOrder,
+        }),
+      });
+      loadImages();
+    } catch (error) {
+      console.error('Error moving image:', error);
+      setMessage('Failed to move image');
+      setMessageType('error');
+    }
+  };
+
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -421,6 +449,14 @@ export default function AdminGalleryManager() {
                 <CardActions>
                   <IconButton
                     size="small"
+                    onClick={() => handleJump(image, 'top')}
+                    disabled={images.findIndex((i) => i.id === image.id) === 0}
+                    aria-label="Move to top"
+                  >
+                    <VerticalAlignTop />
+                  </IconButton>
+                  <IconButton
+                    size="small"
                     onClick={() => handleMove(image, 'up')}
                     disabled={images.findIndex((i) => i.id === image.id) === 0}
                     aria-label="Move up"
@@ -434,6 +470,14 @@ export default function AdminGalleryManager() {
                     aria-label="Move down"
                   >
                     <ArrowDownward />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleJump(image, 'bottom')}
+                    disabled={images.findIndex((i) => i.id === image.id) === images.length - 1}
+                    aria-label="Move to bottom"
+                  >
+                    <VerticalAlignBottom />
                   </IconButton>
                   <Box sx={{ flexGrow: 1 }} />
                   <IconButton
