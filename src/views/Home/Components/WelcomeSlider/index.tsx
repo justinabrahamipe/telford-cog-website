@@ -16,7 +16,7 @@ import Link from "next/link";
 import { useTheme as useCustomTheme } from "../../../../theme/ThemeContext";
 import logoDark from "../../../../assets/logos/logo_full_dark_750x200.png";
 import logoLight from "../../../../assets/logos/logo_full_light_750x200.png";
-import churchImage from "../../../../assets/photos/church_image.jpg";
+import churchImage from "../../../../assets/photos/church_image.jpeg";
 
 // Helper function to handle both string and StaticImageData types
 const getImageSrc = (img: any): string => {
